@@ -16,7 +16,7 @@ import SectionBanner from './components/SectionBanner';
 import Body from './components/Body';
 import Footer from './components/Footer';
 import FAB from './components/FAB';
-
+import formPgmData from './components/Banner/formPagamento';
 import initialItemData from './data';
 
 import 'react-notifications/lib/notifications.css';
@@ -29,10 +29,13 @@ function App() {
   const query = useQuery();
   const [itemData, setItemData] = useState([...initialItemData]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [totalPriceFator, setTotalPriceFator] = useState(0);
   const [clientData, setClientData] = useState({
     nome: '',
     email: '',
     telefone: '',
+    codFormaPgm: '01',
+    formaPgmName: '',
   });
 
   function handleItemQtd(ref, action) {
@@ -47,6 +50,7 @@ function App() {
     const priceToItemFilter = itemData.filter((item) => item.ref === ref)[0].newPrice;
     const updateTotalPrice = action === '+' ? totalPrice + priceToItemFilter : (priceToItemFilter > totalPrice ? 0 : totalPrice - priceToItemFilter);
     setTotalPrice(updateTotalPrice);
+    setTotalPriceFator(updateTotalPrice);
   }
 
   function handleClientData(value, name) {
@@ -54,6 +58,18 @@ function App() {
       ...clientData,
       [name]: value,
     });
+    console.log('clientData', clientData);
+  }
+
+  function handleFormPgt(value) {
+    const formPgtSelect = formPgmData.filter((pgt) => pgt.CODIGO === value)[0];
+    const finalPrice = formPgtSelect.nFator > 0 ? totalPrice * formPgtSelect.nFator : totalPrice;
+    setClientData({
+      ...clientData,
+      codFormaPgm: value,
+      formaPgmName: formPgtSelect.DESCRICAO,
+    });
+    return setTotalPriceFator(finalPrice);
   }
 
   async function finishOrcamento() {
@@ -64,14 +80,16 @@ function App() {
     try {
       const filterItens = totalPrice === 0 ? [] : itemData.filter((item) => item.qtd);
       const dateNow = format(Date.now(), 'dd/MM/yyyy - HH:mm:ss', { locale: ptBr });
-      console.log('query.get', query.get('v'));
+      const formPgmFilter = formPgmData.filter((pgm) => pgm.CODIGO === clientData.codFormaPgm)[0];
       const finalData = {
         ...clientData,
         codVendedor: query.get('v'),
         origem: query.get('o'),
         produtos: filterItens,
         total: totalPrice,
+        totalMultFormPgt: totalPriceFator.toLocaleString('pt-br', { minimumFractionDigits: 2 }),
         dateLead: dateNow,
+        formaPgmName: !clientData.formaPgmName ? formPgmFilter.DESCRICAO : clientData.formaPgmName,
       };
 
       await axios.post('https://trecho.app.br:21124/lead', finalData);
@@ -95,7 +113,11 @@ function App() {
       <Header />
       <Banner
         totalPrice={totalPrice}
+        totalPriceFator={totalPriceFator}
         clientData={clientData}
+        setTotalPrice={setTotalPrice}
+        codFormaPgm={clientData.codFormaPgm}
+        handleFormPgt={handleFormPgt}
         handleClientData={handleClientData}
         finishOrcamento={finishOrcamento}
       />
@@ -103,7 +125,7 @@ function App() {
       <Body itemData={itemData} handleItemQtd={handleItemQtd} />
       <Footer />
       <Context.Provider value={{ price: totalPrice }}>
-        <FAB totalPrice={totalPrice} />
+        <FAB totalPrice={totalPriceFator} />
       </Context.Provider>
       <NotificationContainer />
     </div>
