@@ -1,0 +1,14 @@
+.max-w-16 {
+  max-width: 15.8rem;
+}
+
+.img-product {
+  width: 250px;
+  height: auto;
+  resize: horizontal;
+  /* max-width: 300px; */
+}
+
+.flex-33 {
+  flex: 0.33;
+}

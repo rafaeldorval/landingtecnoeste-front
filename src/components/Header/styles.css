@@ -1,0 +1,8 @@
+.background-banner {
+  background-image: url('../../assets/images/backgroundhome.png');
+  background-position-x: 50%;
+  background-position-y: 50%;
+  /* background-repeat: no-repeat; */
+  background-size: contain;
+  background-attachment: scroll;
+ }

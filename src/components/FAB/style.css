@@ -1,0 +1,18 @@
+.float-fab {
+	bottom:40px;
+	right:40px;
+	background-color:black;
+	color:#E6BF27;
+  border-width: 5px;
+  border-color: #E6BF27;
+	border-radius:50px;
+	text-align:center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+/*
+.float-fab img {
+  width: 45px;
+} */
