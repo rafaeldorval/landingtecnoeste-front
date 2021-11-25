@@ -2,20 +2,29 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable no-unused-vars */
-import React, { createContext, useState, useRef } from 'react';
+import React, {
+  createContext, useState, useRef, useEffect,
+} from 'react';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import axios from 'axios';
 import {
-  Switch, Route, BrowserRouter as Router, useLocation,
+  Switch,
+  Route,
+  useLocation,
+  BrowserRouter as Router,
 } from 'react-router-dom';
 import { create, all } from 'mathjs';
 import ptBr from 'date-fns/locale/pt-BR';
 import { NotificationManager, NotificationContainer } from 'react-notifications';
+
+import PecasAction from './store/ducks/pecas';
+
+import './config/reactotron';
+import store from './store';
 import Header from './components/Header';
 import Banner from './components/Banner';
-import SectionBanner from './components/SectionBanner';
 import Body from './components/Body';
-import Footer from './components/Footer';
 import FAB from './components/FAB';
 import formPgmData from './components/Banner/formPagamento';
 import initialItemData from './newData';
@@ -30,9 +39,11 @@ export function useQuery() {
 }
 
 function App() {
+  const dispatch = useDispatch();
   const query = useQuery();
   const bodyRef = useRef();
-  const [itemData, setItemData] = useState([...initialItemData]);
+  const pecasData = useSelector((state) => state.pecas.pecasData);
+  const [itemData, setItemData] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalPriceFator, setTotalPriceFator] = useState(0);
   const [clientData, setClientData] = useState({
@@ -43,8 +54,18 @@ function App() {
     formaPgmName: '',
   });
 
-  function handleItemQtd(ref, action) {
-    const filterQtdItem = itemData.map((item) => (item.ref === ref ? (
+  useEffect(() => {
+    dispatch(PecasAction.getPecasRequest());
+  }, []);
+
+  useEffect(() => {
+    if (pecasData) {
+      setItemData([...pecasData.docs]);
+    }
+  }, [pecasData]);
+
+  function handleItemQtd(REFERENCIA, action) {
+    const filterQtdItem = itemData.map((item) => (item.REFERENCIA === REFERENCIA ? (
       {
         ...item,
         qtd: action === '+' ? (item.qtd ? item.qtd + 1 : 1) : (item.qtd && item.qtd > 0 && item.qtd - 1),
@@ -52,7 +73,9 @@ function App() {
     ) : item));
 
     setItemData(filterQtdItem);
-    const priceToItemFilter = itemData.filter((item) => item.ref === ref)[0].newPrice;
+    const priceToItemFilter = itemData.filter(
+      (item) => item.REFERENCIA === REFERENCIA,
+    )[0].newPrice;
     const updateTotalPrice = action === '+' ? totalPrice + priceToItemFilter : (priceToItemFilter > totalPrice ? 0 : totalPrice - priceToItemFilter);
     setTotalPrice(updateTotalPrice);
     setTotalPriceFator(updateTotalPrice);
@@ -125,12 +148,12 @@ function App() {
 
   return (
     <div className="h-screen">
+      <FAB totalPrice={totalPriceFator} />
+      {/* <Context.Provider value={{ price: totalPrice }}>
+      </Context.Provider> */}
       <Header />
       <Body itemData={itemData} handleItemQtd={handleItemQtd} ref={bodyRef} />
       {/* <Footer /> */}
-      <Context.Provider value={{ price: totalPrice }}>
-        <FAB totalPrice={totalPriceFator} />
-      </Context.Provider>
       <Banner
         totalPrice={totalPrice}
         totalPriceFator={totalPriceFator}
@@ -140,11 +163,6 @@ function App() {
         handleFormPgt={handleFormPgt}
         handleClientData={handleClientData}
         finishOrcamento={finishOrcamento}
-        scrollData={{
-          ref: bodyRef,
-          x: 20,
-          y: 500,
-        }}
       />
       {/* <SectionBanner /> */}
       <NotificationContainer />
@@ -153,11 +171,13 @@ function App() {
 }
 
 const Routes = () => (
-  <Router>
-    <Switch>
-      <Route path="/" component={App} />
-    </Switch>
-  </Router>
+  <Provider store={store}>
+    <Router>
+      <Switch>
+        <Route path="/" component={App} />
+      </Switch>
+    </Router>
+  </Provider>
 );
 
 export default Routes;

@@ -11,8 +11,13 @@ function Header() {
         <a href="http://www.tecnoeste.net" target="_blank" rel="noreferrer">
           <img src={LogoTecnoeste} alt="logo tecnoeste" />
         </a>
-        <span className="text-white font-semibold text-2xl my-4">NÃO ESPERE SUA MÁQUINA TER PROBLEMAS<br />
-          PARA INVESTIR EM VTS E MATERIAL RODANTE
+        <span className="text-white font-semibold text-2xl my-4">TODA LOJA COM 10% DE DESCONTO
+          <br />
+          <span className="text-white text-sm my-4">
+            *Exceto itens que já estão na promoção da CS Challenge, Pneus, MR e VTS*
+          </span>
+
+          <br />Promoção válida 26/11/2021
         </span>
         <div>
           <div className="flex md:hidden lg:hidden xl:hidden">

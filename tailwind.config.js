@@ -26,6 +26,10 @@ module.exports = {
         '3/4': '75%',
         'full': '100%',
       },
+      inset: {
+        'fab-left': '88%',
+        'fab-top': '80%',
+      },
     },
   },
   variants: {
