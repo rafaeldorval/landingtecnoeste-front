@@ -59,7 +59,6 @@ function App() {
     telefone: '',
     codFormaPgm: '01',
     formaPgmName: '',
-    loja: '0000',
   });
 
   useEffect(() => {
@@ -68,10 +67,6 @@ function App() {
       const vendedorFilter = VendedorData.filter((vend) => vend.codVendedor === vendedorQuery);
 
       if (vendedorFilter.length > 0) {
-        setClientData({
-          ...clientData,
-          loja: vendedorFilter[0].loja,
-        });
         dispatch(PecasAction.setLoja(vendedorFilter[0].loja));
       }
     }
@@ -134,7 +129,7 @@ function App() {
   }
 
   async function finishOrcamento() {
-    if (!clientData.nome || !clientData.email || !clientData.telefone || clientData.loja === '0000') {
+    if (!clientData.nome || !clientData.email || !clientData.telefone) {
       return alert('Todos os campos do formulario são obrigatorios');
     }
 
@@ -148,6 +143,7 @@ function App() {
         codVendedor: query.get('v'),
         origem: query.get('o'),
         produtos: filterItens,
+        loja: lojaSelectStore,
         // total: totalPrice,
         // totalMultFormPgt: totalPriceFator.toLocaleString('pt-br', { minimumFractionDigits: 2 }),
         total: formatFloat(totalPrice).toLocaleString('pt-br', { minimumFractionDigits: 2 }),
