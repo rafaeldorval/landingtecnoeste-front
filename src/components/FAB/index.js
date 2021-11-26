@@ -6,7 +6,7 @@ import { formatFloat } from '../../utils/formaters';
 import './style.css';
 
 function FAB({ totalPrice }) {
-  const [showFab, setShowFab] = useState(true);
+  const [showFab, setShowFab] = useState(false);
 
   const toggleVisible = () => {
     const scrolled = document.documentElement.scrollTop;

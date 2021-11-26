@@ -26,10 +26,14 @@ import Header from './components/Header';
 import Banner from './components/Banner';
 import Body from './components/Body';
 import FAB from './components/FAB';
+import ScrollToTop from './components/ScrollToTop';
+import LoadingScreen from './components/LoadingScreen';
 import formPgmData from './components/Banner/formPagamento';
 import initialItemData from './newData';
+import VendedorData from './config/vendedorData';
 
 import 'react-notifications/lib/notifications.css';
+import { formatFloat } from './utils/formaters';
 
 const config = { };
 const math = create(all, config);
@@ -42,6 +46,7 @@ function App() {
   const dispatch = useDispatch();
   const query = useQuery();
   const bodyRef = useRef();
+  const pecasLoading = useSelector((state) => state.pecas.loading);
   const pecasData = useSelector((state) => state.pecas.pecasData);
   const [itemData, setItemData] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -52,10 +57,22 @@ function App() {
     telefone: '',
     codFormaPgm: '01',
     formaPgmName: '',
+    loja: '0000',
   });
 
   useEffect(() => {
     dispatch(PecasAction.getPecasRequest());
+    const vendedorQuery = query.get('v');
+    if (vendedorQuery) {
+      const vendedorFilter = VendedorData.filter((vend) => vend.codVendedor === vendedorQuery);
+
+      if (vendedorFilter.length > 0) {
+        setClientData({
+          ...clientData,
+          loja: vendedorFilter[0].loja,
+        });
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -86,7 +103,6 @@ function App() {
       ...clientData,
       [name]: value,
     });
-    console.log('clientData', clientData);
   }
 
   function handleFormPgt(value) {
@@ -110,11 +126,12 @@ function App() {
   }
 
   async function finishOrcamento() {
-    if (!clientData.nome || !clientData.email || !clientData.telefone) {
+    if (!clientData.nome || !clientData.email || !clientData.telefone || clientData.loja === '0000') {
       return alert('Todos os campos do formulario são obrigatorios');
     }
 
     try {
+      dispatch(PecasAction.setLoading(true));
       const filterItens = totalPrice === 0 ? [] : itemData.filter((item) => item.qtd);
       const dateNow = format(Date.now(), 'dd/MM/yyyy - HH:mm:ss', { locale: ptBr });
       const formPgmFilter = formPgmData.filter((pgm) => pgm.CODIGO === clientData.codFormaPgm)[0];
@@ -123,20 +140,24 @@ function App() {
         codVendedor: query.get('v'),
         origem: query.get('o'),
         produtos: filterItens,
-        total: totalPrice,
-        totalMultFormPgt: totalPriceFator.toLocaleString('pt-br', { minimumFractionDigits: 2 }),
+        // total: totalPrice,
+        // totalMultFormPgt: totalPriceFator.toLocaleString('pt-br', { minimumFractionDigits: 2 }),
+        total: formatFloat(totalPrice).toLocaleString('pt-br', { minimumFractionDigits: 2 }),
+        totalMultFormPgt: formatFloat(totalPriceFator).toLocaleString('pt-br', { minimumFractionDigits: 2 }),
         dateLead: dateNow,
         formaPgmName: !clientData.formaPgmName ? formPgmFilter.DESCRICAO : clientData.formaPgmName,
-        promoName: 'CAMPANHA NACIONAL DE PECAS, 30/10/2021',
+        promoName: 'BLACK FRIDAY - 26/11/2021',
       };
 
-      // await axios.post('https://trecho.app.br:21124/lead', finalData);
-      await axios.post('http://localhost:21124/lead', finalData);
+      await axios.post('https://trecho.app.br:21124/lead', finalData);
+      // await axios.post('http://localhost:21124/lead', finalData);
+      dispatch(PecasAction.setLoading(false));
       NotificationManager.success(
         'Orçamento gerado com sucesso, em breve um vendedor ira entrar em contato',
         'Orçamento',
       );
     } catch (error) {
+      dispatch(PecasAction.setLoading(false));
       NotificationManager.error(
         'Ops, algo deu errado, tente novamente',
         'Orçamento',
@@ -149,11 +170,14 @@ function App() {
   return (
     <div className="h-screen">
       <FAB totalPrice={totalPriceFator} />
+      <ScrollToTop />
+      {pecasLoading && (
+        <LoadingScreen />
+      )}
       {/* <Context.Provider value={{ price: totalPrice }}>
       </Context.Provider> */}
       <Header />
       <Body itemData={itemData} handleItemQtd={handleItemQtd} ref={bodyRef} />
-      {/* <Footer /> */}
       <Banner
         totalPrice={totalPrice}
         totalPriceFator={totalPriceFator}

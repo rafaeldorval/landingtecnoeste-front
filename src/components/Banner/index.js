@@ -21,6 +21,28 @@ function Banner({
   handleFormPgt,
   codFormaPgm,
 }) {
+  const lojasData = [
+    {
+      cod: '0000',
+      nome: 'Escolha uma loja',
+    },
+    {
+      cod: '0001',
+      nome: 'Campo Grande',
+    },
+    {
+      cod: '0002',
+      nome: 'Cuiaba',
+    },
+    {
+      cod: '0012',
+      nome: 'Sinop',
+    },
+    {
+      cod: '0014',
+      nome: 'Dourados',
+    },
+  ];
   return (
     <div className="min-w-screen background-banner md:h-3/4 flex flex-col items-center justify-center w-full">
       <div className="flex items-center justify-center flex-col md:flex-row h-11/12 w-full p-4">
@@ -79,6 +101,21 @@ function Banner({
             </select>
           </section>
           )}
+          <section className="w-full md:w-10/12 flex items-center justify-center flex-col mt-2 mb-2">
+            <label for="inp-formpagamento" className="text-white w-full md:w-8/12 text-left">Escolha a loja de atendimento:</label>
+            <select
+              id="inp-formpagamento"
+              value={clientData.loja}
+              onChange={({ target }) => handleClientData(target.value, 'loja')}
+              className="w-full md:w-8/12 rounded-3xl h-10 px-4"
+            >
+              {lojasData.map((loja) => (
+                <option key={loja.cod} value={loja.cod}>
+                  {loja.nome}
+                </option>
+              ))}
+            </select>
+          </section>
           <button
             type="button"
             className="bg-secondary w-full md:w-2/5 h-12 rounded-3xl mt-2 mb-4"

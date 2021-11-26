@@ -1,14 +1,44 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable max-len */
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Img } from 'react-image';
-import ReactPaginate from 'react-paginate';
+import { AiOutlineArrowDown } from 'react-icons/ai';
+import { GiSandsOfTime } from 'react-icons/gi';
+import { MdSearchOff } from 'react-icons/md';
+import PecasAction from '../../store/ducks/pecas';
 
 import FallBackImage from '../../assets/images/imgfallback.png';
 import { formatFloat } from '../../utils/formaters';
 import './style.css';
 
 function Body({ handleItemQtd, itemData }) {
+  const dispatch = useDispatch();
+  const pecasLoading = useSelector((state) => state.pecas.loading);
+  const isSearchPecas = useSelector((state) => state.pecas.isSearchPecas);
+  const pecasData = useSelector((state) => state.pecas.pecasData);
+
+  const [pecasSearch, setPecasSearch] = useState('');
+
+  function handleSearchPecas() {
+    return dispatch(PecasAction.getSearchPecasRequest(pecasSearch));
+  }
+
+  function handlePecasQuery(e) {
+    if (e) {
+      if (e.key === 'Enter') {
+        return handleSearchPecas();
+      }
+    }
+
+    return null;
+  }
+
+  function handleClearSearchPecas() {
+    setPecasSearch('');
+    return dispatch(PecasAction.clearSearchPecasRequest());
+  }
+
   return (
     <div className="pt-10 px-10 pb-0">
       <section className="w-full flex flex-col items-center">
@@ -16,6 +46,38 @@ function Body({ handleItemQtd, itemData }) {
         {/* <p>*Exceto itens que já estão na promoção da CS Challenge, Pneus, MR e VTS*</p>
         <p><b>Promoção válida 26/11/2021</b></p> */}
       </section>
+      {!pecasLoading && (
+        <h3 className="text-xl font-semibold text-center mt-12 mb-2">Pesquise pelo nome das peças que você procura:</h3>
+      )}
+      {!pecasLoading && (
+        <section className="w-full flex flex-row items-center justify-center">
+          <input
+            value={pecasSearch}
+            onChange={({ target }) => setPecasSearch(target.value)}
+            onKeyPress={(e) => handlePecasQuery(e)}
+            className="w-full md:w-6/12 h-10 p-4 rounded-l border border-primary"
+          />
+          <button
+            type="button"
+            onClick={() => handleSearchPecas()}
+            className="h-10 p-4 bg-primary text-secondary flex flex-row items-center justify-center"
+          >
+            Pesquisar
+          </button>
+        </section>
+      )}
+      {isSearchPecas && (
+        <section className="w-full flex flex-row items-center justify-center mt-4">
+          <button
+            type="button"
+            onClick={() => handleClearSearchPecas()}
+            className="text-xl flex flex-row items-center justify-center h-10 p-4 bg-secondary text-primary"
+          >
+            Limpar Pesquisa
+            <MdSearchOff size={32} />
+          </button>
+        </section>
+      )}
       <div className="mt-6 flex flex-col items-center">
         <div className="flex md:flex-row flex-wrap flex-col w-10/12 items-center justify-start mb-8">
           {itemData && itemData.map((item, index) => (
@@ -44,7 +106,7 @@ function Body({ handleItemQtd, itemData }) {
               <p className="bg-primary text-secondary px-2 uppercase font-semibold">{item.destaque}</p>
               )} */}
               <p className="max-w-16 text-center mt-4 font-bold text-primary text-xl">
-                10% de Desconto
+                {item.SEFMP} itens restantes
               </p>
               <span className="flex flex-row items-center justify-center">
                 <h4 className="text-red-600 font-bold line-through text-lg mr-1">R$ {formatFloat(item.PRECO).toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h4>
@@ -72,26 +134,32 @@ function Body({ handleItemQtd, itemData }) {
             </section>
           ))}
         </div>
-        <ReactPaginate
-          breakLabel="..."
-          nextLabel="next >"
-          onPageChange={() => {}}
-          pageRangeDisplayed={5}
-          pageCount={25}
-          previousLabel="< previous"
-          renderOnZeroPageCount={null}
-          containerClassName="pagination"
-          previousLinkClassName="pagination__link"
-          nextLinkClassName="pagination__link"
-          disabledClassName="pagination__link--disabled"
-          activeClassName="pagination__link--active"
-        />
-        {/* <div className="flex w-full items-center justify-center mt-8 mb-4">
-          <p className="text-black px-2 font-semibold">
-            *Válido para o cliente que utilizar o nosso serviço de instalação.
-            Não esta incluso no valor da peça.
-          </p>
-        </div> */}
+        {itemData && pecasData.hasNextPage && !pecasLoading && (
+        <button
+          onClick={() => {
+            if (isSearchPecas) {
+              return dispatch(PecasAction.getSearchPecasRequest(pecasSearch, true));
+            }
+            return dispatch(PecasAction.getPecasRequest(true));
+          }}
+          className="bg-primary py-2 px-8 rounded mt-4 mb-8 flex flex-row align-center justify-center border-2 border-secondary"
+          type="button"
+        >
+          <p className="text-secondary font-bold text-xl">Carregar mais</p>
+          <AiOutlineArrowDown color="#E6BF27" size="30" />
+        </button>
+        )}
+        {pecasLoading && itemData && (
+        <button
+          onClick={() => dispatch(PecasAction.getPecasRequest(true))}
+          disabled
+          className="bg-gray-400 py-2 px-8 rounded mt-4 mb-8 flex flex-row align-center justify-center"
+          type="button"
+        >
+          <p className="text-white font-bold text-xl">Carregando...</p>
+          <GiSandsOfTime color="#fff" size="30" />
+        </button>
+        )}
       </div>
     </div>
   );

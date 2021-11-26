@@ -27,8 +27,10 @@ module.exports = {
         'full': '100%',
       },
       inset: {
-        'fab-left': '88%',
-        'fab-top': '80%',
+        'fab-left': '87%',
+        'fab-right': '95%',
+        'fab-top-scroll': '90%',
+        'fab-top': '85%',
       },
     },
   },
