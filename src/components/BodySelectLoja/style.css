@@ -1,0 +1,44 @@
+.max-w-16 {
+  max-width: 15.8rem;
+}
+
+.img-product {
+  width: 250px;
+  height: auto;
+  resize: horizontal;
+  /* max-width: 300px; */
+}
+
+.flex-33 {
+  flex: 0.33;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  cursor: pointer;
+  margin-bottom: 35px;
+}
+
+.pagination a {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #9395a3;
+  color: #c69c03;
+}
+
+.pagination__link {
+  font-weight: bold;
+}
+
+.pagination__link--active a {
+  color: #fff;
+  background: #c69c03;
+}
+
+.pagination__link--disabled a {
+  color: rgb(198, 197, 202);
+  border: 1px solid rgb(198, 197, 202);
+}
+

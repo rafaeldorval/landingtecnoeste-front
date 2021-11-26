@@ -8,7 +8,9 @@ import { GiSandsOfTime } from 'react-icons/gi';
 import { MdSearchOff } from 'react-icons/md';
 import PecasAction from '../../store/ducks/pecas';
 
+import ModalComponent from '../ModalComponent';
 import FallBackImage from '../../assets/images/imgfallback.png';
+import FallBackImageLarge from '../../assets/images/imgfallbackLarge.jpg';
 import { formatFloat } from '../../utils/formaters';
 import './style.css';
 
@@ -19,6 +21,8 @@ function Body({ handleItemQtd, itemData }) {
   const pecasData = useSelector((state) => state.pecas.pecasData);
 
   const [pecasSearch, setPecasSearch] = useState('');
+  const [imgProdModal, setImgProdModal] = useState(false);
+  const [imgFocusUrl, setImgFocusUrl] = useState('');
 
   function handleSearchPecas() {
     return dispatch(PecasAction.getSearchPecasRequest(pecasSearch));
@@ -85,13 +89,18 @@ function Body({ handleItemQtd, itemData }) {
               {/* <img src={item.imgData} alt="ref 11915157" className="w-8/12 md:w-7/12" /> */}
               <Img
                 src={
-              [
-                item.imgData,
-                FallBackImage,
-              ]
-            }
+                  [
+                    item.imgData,
+                    FallBackImage,
+                  ]
+                }
                 style={{
-                  width: '70px',
+                  width: '150px',
+                  cursor: 'pointer',
+                }}
+                onClick={() => {
+                  setImgFocusUrl(item.imgData);
+                  setImgProdModal(true);
                 }}
               />
               <h3 className="text-primary flex flex-col items-center justify-center text-center font-bold text-xl">{item.DESCRICAO}</h3>
@@ -106,11 +115,11 @@ function Body({ handleItemQtd, itemData }) {
               <p className="bg-primary text-secondary px-2 uppercase font-semibold">{item.destaque}</p>
               )} */}
               <p className="max-w-16 text-center mt-4 font-bold text-primary text-xl">
-                {item.SEFMP} itens restantes
+                {item.SEFMP} {item.SEFMP === 1 ? 'disponível' : 'disponíveis'}
               </p>
               <span className="flex flex-row items-center justify-center">
                 <h4 className="text-red-600 font-bold line-through text-lg mr-1">R$ {formatFloat(item.PRECO).toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h4>
-                <h5 className="text-green-500 font-bold text-2xl">R$ {formatFloat(item.newPrice).toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h5>
+                <h5 className="text-green-500 font-bold text-2xl">R$ {item.newPrice.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h5>
               </span>
               {item.qtd ? (
                 <section className="flex flex-row items-center justify-between bg-primary w-full md:w-2/3 rounded mt-4">
@@ -160,6 +169,19 @@ function Body({ handleItemQtd, itemData }) {
           <GiSandsOfTime color="#fff" size="30" />
         </button>
         )}
+        <ModalComponent
+          openState={imgProdModal}
+          closeAction={() => setImgProdModal(!imgProdModal)}
+          width="90%"
+          height="90%"
+        >
+          <Img
+            src={[imgFocusUrl, FallBackImageLarge]}
+            style={{
+              width: '50%',
+            }}
+          />
+        </ModalComponent>
       </div>
     </div>
   );

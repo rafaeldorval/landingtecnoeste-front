@@ -25,6 +25,7 @@ import store from './store';
 import Header from './components/Header';
 import Banner from './components/Banner';
 import Body from './components/Body';
+import BodySelectLoja from './components/BodySelectLoja';
 import FAB from './components/FAB';
 import ScrollToTop from './components/ScrollToTop';
 import LoadingScreen from './components/LoadingScreen';
@@ -47,6 +48,7 @@ function App() {
   const query = useQuery();
   const bodyRef = useRef();
   const pecasLoading = useSelector((state) => state.pecas.loading);
+  const lojaSelectStore = useSelector((state) => state.pecas.lojaSelect);
   const pecasData = useSelector((state) => state.pecas.pecasData);
   const [itemData, setItemData] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -61,7 +63,6 @@ function App() {
   });
 
   useEffect(() => {
-    dispatch(PecasAction.getPecasRequest());
     const vendedorQuery = query.get('v');
     if (vendedorQuery) {
       const vendedorFilter = VendedorData.filter((vend) => vend.codVendedor === vendedorQuery);
@@ -71,9 +72,16 @@ function App() {
           ...clientData,
           loja: vendedorFilter[0].loja,
         });
+        dispatch(PecasAction.setLoja(vendedorFilter[0].loja));
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (lojaSelectStore) {
+      dispatch(PecasAction.getPecasRequest());
+    }
+  }, [lojaSelectStore]);
 
   useEffect(() => {
     if (pecasData) {
@@ -169,15 +177,24 @@ function App() {
 
   return (
     <div className="h-screen">
-      <FAB totalPrice={totalPriceFator} />
-      <ScrollToTop />
+      {lojaSelectStore && (
+        <FAB totalPrice={totalPriceFator} />
+      )}
+      {lojaSelectStore && (
+        <ScrollToTop />
+      )}
       {pecasLoading && (
         <LoadingScreen />
       )}
       {/* <Context.Provider value={{ price: totalPrice }}>
       </Context.Provider> */}
       <Header />
-      <Body itemData={itemData} handleItemQtd={handleItemQtd} ref={bodyRef} />
+      {lojaSelectStore && (
+        <Body itemData={itemData} handleItemQtd={handleItemQtd} ref={bodyRef} />
+      )}
+      {!lojaSelectStore && (
+        <BodySelectLoja />
+      )}
       <Banner
         totalPrice={totalPrice}
         totalPriceFator={totalPriceFator}

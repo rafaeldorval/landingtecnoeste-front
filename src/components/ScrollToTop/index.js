@@ -32,8 +32,8 @@ function FAB() {
             items-center
             justify-center
             fixed
-            right-fab-right
-            top-fab-top-scroll"
+            left-fab-left
+            bottom-fab-bottom-scroll"
         >
           <div className="float-fab w-16 h-16">
             <FaArrowUp size={35} />

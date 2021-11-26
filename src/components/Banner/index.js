@@ -9,7 +9,7 @@ import React from 'react';
 import NumberFormat from 'react-number-format';
 import PromoImg from '../../assets/images/novlogo.png';
 import formPagamento from './formPagamento';
-import { formatFloat, handleParcelaValuePecas } from '../../utils/formaters';
+import { handleParcelaValuePecas } from '../../utils/formaters';
 import './style.css';
 
 function Banner({
@@ -21,30 +21,8 @@ function Banner({
   handleFormPgt,
   codFormaPgm,
 }) {
-  const lojasData = [
-    {
-      cod: '0000',
-      nome: 'Escolha uma loja',
-    },
-    {
-      cod: '0001',
-      nome: 'Campo Grande',
-    },
-    {
-      cod: '0002',
-      nome: 'Cuiaba',
-    },
-    {
-      cod: '0012',
-      nome: 'Sinop',
-    },
-    {
-      cod: '0014',
-      nome: 'Dourados',
-    },
-  ];
   return (
-    <div className="min-w-screen background-banner md:h-3/4 flex flex-col items-center justify-center w-full">
+    <div className="min-w-screen background-banner  md:mb-36 flex flex-col items-center justify-center w-full">
       <div className="flex items-center justify-center flex-col md:flex-row h-11/12 w-full p-4">
         <div className="md:flex-1 md:h-full flex flex-col items-center justify-center md:items-end">
           <img className="md:w-4/5 w-full md:-mr-8" src={PromoImg} alt="product banner" />
@@ -101,7 +79,7 @@ function Banner({
             </select>
           </section>
           )}
-          <section className="w-full md:w-10/12 flex items-center justify-center flex-col mt-2 mb-2">
+          {/* <section className="w-full md:w-10/12 flex items-center justify-center flex-col mt-2 mb-2">
             <label for="inp-formpagamento" className="text-white w-full md:w-8/12 text-left">Escolha a loja de atendimento:</label>
             <select
               id="inp-formpagamento"
@@ -115,16 +93,16 @@ function Banner({
                 </option>
               ))}
             </select>
-          </section>
+          </section> */}
           <button
             type="button"
-            className="bg-secondary w-full md:w-2/5 h-12 rounded-3xl mt-2 mb-4"
+            className="bg-secondary w-full md:w-2/5 h-12 rounded-3xl mt-2 mb-60 md:mb-8"
             onClick={() => finishOrcamento()}
           >
             <h4 className="text-base lg:text-lg font-bold uppercase">Receber ORÇAMENTO</h4>
           </button>
           {totalPrice > 0 && (
-          <h4 className="bg-black rounded-xl px-5 border border-secondary py-2 text-secondary border-dashed text-3xl font-bold uppercase">Total: R$ {formatFloat(totalPriceFator).toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h4>
+          <h4 className="bg-black rounded-xl px-5 border border-secondary py-2 text-secondary border-dashed text-3xl font-bold uppercase">Total: R$ {totalPriceFator.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h4>
           )}
         </div>
       </div>

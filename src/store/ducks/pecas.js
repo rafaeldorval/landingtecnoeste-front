@@ -13,6 +13,7 @@ const { Types, Creators } = createActions({
   clearSearchPecasSuccess: ['data', 'secondaryData'],
   loadingCancel: null,
   setLoading: ['data'],
+  setLoja: ['data'],
 });
 
 export const PecasTypes = Types;
@@ -24,6 +25,7 @@ export const INITIAL_STATE = {
   pecasData: null,
   secondaryData: null,
   isSearchPecas: false,
+  lojaSelect: null,
   loading: false,
 };
 
@@ -83,5 +85,9 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_LOADING]: (state = INITIAL_STATE, { data }) => ({
     ...state,
     loading: data,
+  }),
+  [Types.SET_LOJA]: (state = INITIAL_STATE, { data }) => ({
+    ...state,
+    lojaSelect: data,
   }),
 });
