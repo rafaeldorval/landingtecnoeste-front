@@ -15,6 +15,7 @@ import {
   BrowserRouter as Router,
 } from 'react-router-dom';
 import { create, all } from 'mathjs';
+import ReactGA from 'react-ga';
 import ptBr from 'date-fns/locale/pt-BR';
 import { NotificationManager, NotificationContainer } from 'react-notifications';
 
@@ -51,8 +52,10 @@ function App() {
   const lojaSelectStore = useSelector((state) => state.pecas.lojaSelect);
   const pecasData = useSelector((state) => state.pecas.pecasData);
   const [itemData, setItemData] = useState(null);
+  const [carrinhoModalStatus, setCarrinhoModalStatus] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalPriceFator, setTotalPriceFator] = useState(0);
+  const [initialized, setInitialized] = useState(false);
   const [clientData, setClientData] = useState({
     nome: '',
     email: '',
@@ -60,6 +63,19 @@ function App() {
     codFormaPgm: '01',
     formaPgmName: '',
   });
+
+  useEffect(() => {
+    if (!window.location.href.includes('localhost')) {
+      ReactGA.initialize('G-43LVTPTNBJ');
+    }
+    setInitialized(true);
+  }, []);
+
+  useEffect(() => {
+    if (initialized) {
+      ReactGA.pageview(window.location.pathname + window.location.search);
+    }
+  }, [initialized]);
 
   useEffect(() => {
     const vendedorQuery = query.get('v');
@@ -101,6 +117,24 @@ function App() {
     setTotalPriceFator(updateTotalPrice);
   }
 
+  function handleClearItemQtd(REFERENCIA) {
+    const filterOldItem = itemData.filter(
+      (item) => item.REFERENCIA === REFERENCIA,
+    )[0];
+    const totalOldPrice = filterOldItem.newPrice * filterOldItem.qtd;
+    const filterQtdItem = itemData.map((item) => (item.REFERENCIA === REFERENCIA ? (
+      {
+        ...item,
+        qtd: 0,
+      }
+    ) : item));
+
+    setItemData(filterQtdItem);
+    const updateTotalPrice = totalOldPrice > totalPrice ? 0 : totalPrice - totalOldPrice;
+    setTotalPrice(updateTotalPrice);
+    setTotalPriceFator(updateTotalPrice);
+  }
+
   function handleClientData(value, name) {
     setClientData({
       ...clientData,
@@ -129,6 +163,7 @@ function App() {
   }
 
   async function finishOrcamento() {
+    setCarrinhoModalStatus(false);
     if (!clientData.nome || !clientData.email || !clientData.telefone) {
       return alert('Todos os campos do formulario são obrigatorios');
     }
@@ -161,6 +196,7 @@ function App() {
         'Orçamento',
       );
     } catch (error) {
+      setCarrinhoModalStatus(false);
       dispatch(PecasAction.setLoading(false));
       NotificationManager.error(
         'Ops, algo deu errado, tente novamente',
@@ -186,7 +222,17 @@ function App() {
       </Context.Provider> */}
       <Header />
       {lojaSelectStore && (
-        <Body itemData={itemData} handleItemQtd={handleItemQtd} ref={bodyRef} />
+        <Body
+          itemData={itemData}
+          handleItemQtd={handleItemQtd}
+          ref={bodyRef}
+          carrinhoModal={carrinhoModalStatus}
+          totalPrice={totalPriceFator}
+          setCarrinhoModal={() => setCarrinhoModalStatus(!carrinhoModalStatus)}
+          handleClearItemQtd={handleClearItemQtd}
+          clientData={clientData}
+          finishOrcamento={finishOrcamento}
+        />
       )}
       {!lojaSelectStore && (
         <BodySelectLoja />
@@ -200,6 +246,7 @@ function App() {
         handleFormPgt={handleFormPgt}
         handleClientData={handleClientData}
         finishOrcamento={finishOrcamento}
+        openCarrinho={() => setCarrinhoModalStatus(true)}
       />
       {/* <SectionBanner /> */}
       <NotificationContainer />

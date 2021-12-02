@@ -20,12 +20,20 @@ function Banner({
   totalPriceFator,
   handleFormPgt,
   codFormaPgm,
+  openCarrinho,
 }) {
   return (
-    <div className="min-w-screen background-banner  md:mb-36 flex flex-col items-center justify-center w-full">
+    <div className="min-w-screen background-banner md:h-3/4 md:mb-36 flex flex-col items-center justify-center w-full">
       <div className="flex items-center justify-center flex-col md:flex-row h-11/12 w-full p-4">
-        <div className="md:flex-1 md:h-full flex flex-col items-center justify-center md:items-end">
+        <div className="md:flex-1 md:h-full flex flex-col items-center justify-center">
           <img className="md:w-4/5 w-full md:-mr-8" src={PromoImg} alt="product banner" />
+          <button
+            type="button"
+            className="bg-secondary w-full md:w-2/5 h-12 rounded-3xl mt-2 mb-60 md:mb-8"
+            onClick={() => openCarrinho()}
+          >
+            <h4 className="text-base lg:text-lg font-bold uppercase">Ver carrinho</h4>
+          </button>
         </div>
         <div className="flex-1 h-full mt-4 flex items-center justify-center flex-col md:pr-20">
           <h3 className="text-3xl font-bold text-white w-full md:w-8/12">Preencha o formulário para receber o seu orçamento:</h3>
@@ -97,7 +105,13 @@ function Banner({
           <button
             type="button"
             className="bg-secondary w-full md:w-2/5 h-12 rounded-3xl mt-2 mb-60 md:mb-8"
-            onClick={() => finishOrcamento()}
+            onClick={() => {
+              if (!clientData.nome || !clientData.email || !clientData.telefone) {
+                return alert('Todos os campos do formulario são obrigatorios');
+              }
+
+              return (totalPrice > 0 ? openCarrinho() : finishOrcamento());
+            }}
           >
             <h4 className="text-base lg:text-lg font-bold uppercase">Receber ORÇAMENTO</h4>
           </button>

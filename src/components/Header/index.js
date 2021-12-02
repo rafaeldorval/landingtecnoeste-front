@@ -17,7 +17,7 @@ function Header() {
             *Exceto itens que já estão na promoção da CS Challenge, Pneus, MR e VTS*
           </span>
 
-          <br />Promoção válida 26/11/2021
+          <br />Promoção <b>ESTENDIDA ATÉ 30/11/2021</b>
         </span>
         <div>
           <div className="flex md:hidden lg:hidden xl:hidden">

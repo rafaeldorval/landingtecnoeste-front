@@ -21,7 +21,6 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white',
-    padding: '25px',
   },
 });
 
@@ -34,6 +33,8 @@ export default function ModalComponent({
   modalStyle,
   containerStyle,
   grid,
+  closeButton = false,
+  ...props
 }) {
   const classes = useStyles();
   return (
@@ -49,6 +50,7 @@ export default function ModalComponent({
       BackdropProps={{
         timeout: 500,
       }}
+      {...props}
     >
       {grid ? (
         <Grid
@@ -57,6 +59,7 @@ export default function ModalComponent({
           style={{
             height,
             width,
+            padding: 0,
             ...containerStyle,
           }}
         >
@@ -68,14 +71,17 @@ export default function ModalComponent({
           style={{
             height,
             width,
+            padding: 0,
             ...containerStyle,
           }}
         >
+          {closeButton && (
           <section className="w-full flex flex-row items-end justify-end">
             <button onClick={closeAction} type="button" className="font-semibold">
               Fechar X
             </button>
           </section>
+          )}
           {children}
         </Container>
       )}

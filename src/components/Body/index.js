@@ -6,6 +6,7 @@ import { Img } from 'react-image';
 import { AiOutlineArrowDown } from 'react-icons/ai';
 import { GiSandsOfTime } from 'react-icons/gi';
 import { MdSearchOff } from 'react-icons/md';
+import { FaWindowClose } from 'react-icons/fa';
 import PecasAction from '../../store/ducks/pecas';
 
 import ModalComponent from '../ModalComponent';
@@ -13,8 +14,18 @@ import FallBackImage from '../../assets/images/imgfallback.png';
 import FallBackImageLarge from '../../assets/images/imgfallbackLarge.jpg';
 import { formatFloat } from '../../utils/formaters';
 import './style.css';
+import ScrollContainer from '../ScrollComponent';
 
-function Body({ handleItemQtd, itemData }) {
+function Body({
+  handleItemQtd,
+  itemData,
+  carrinhoModal,
+  setCarrinhoModal,
+  totalPrice,
+  handleClearItemQtd,
+  clientData,
+  finishOrcamento,
+}) {
   const dispatch = useDispatch();
   const pecasLoading = useSelector((state) => state.pecas.loading);
   const isSearchPecas = useSelector((state) => state.pecas.isSearchPecas);
@@ -25,6 +36,10 @@ function Body({ handleItemQtd, itemData }) {
   const [imgFocusUrl, setImgFocusUrl] = useState('');
 
   function handleSearchPecas() {
+    window.scrollTo({
+      top: 500,
+      behavior: 'auto',
+    });
     return dispatch(PecasAction.getSearchPecasRequest(pecasSearch));
   }
 
@@ -40,48 +55,63 @@ function Body({ handleItemQtd, itemData }) {
 
   function handleClearSearchPecas() {
     setPecasSearch('');
+    window.scrollTo({
+      top: 500,
+      behavior: 'auto',
+    });
     return dispatch(PecasAction.clearSearchPecasRequest());
+  }
+
+  function verifyUserData() {
+    if (!clientData.nome || !clientData.email || !clientData.telefone) {
+      return false;
+    }
+
+    return true;
   }
 
   return (
     <div className="pt-10 px-10 pb-0">
-      <section className="w-full flex flex-col items-center">
+      <section className="w-full flex flex-col items-center mb-12">
         <h3 className="text-4xl font-bold text-center">Escolha seu produto e aproveite essas ofertas</h3>
         {/* <p>*Exceto itens que já estão na promoção da CS Challenge, Pneus, MR e VTS*</p>
         <p><b>Promoção válida 26/11/2021</b></p> */}
       </section>
-      {!pecasLoading && (
-        <h3 className="text-xl font-semibold text-center mt-12 mb-2">Pesquise pelo nome das peças que você procura:</h3>
-      )}
-      {!pecasLoading && (
-        <section className="w-full flex flex-row items-center justify-center">
-          <input
-            value={pecasSearch}
-            onChange={({ target }) => setPecasSearch(target.value)}
-            onKeyPress={(e) => handlePecasQuery(e)}
-            className="w-full md:w-6/12 h-10 p-4 rounded-l border border-primary"
-          />
-          <button
-            type="button"
-            onClick={() => handleSearchPecas()}
-            className="h-10 p-4 bg-primary text-secondary flex flex-row items-center justify-center"
-          >
-            Pesquisar
-          </button>
-        </section>
-      )}
-      {isSearchPecas && (
-        <section className="w-full flex flex-row items-center justify-center mt-4">
-          <button
-            type="button"
-            onClick={() => handleClearSearchPecas()}
-            className="text-xl flex flex-row items-center justify-center h-10 p-4 bg-secondary text-primary"
-          >
-            Limpar Pesquisa
-            <MdSearchOff size={32} />
-          </button>
-        </section>
-      )}
+      <div className="w-full bg-white bg-opacity-80 flex flex-col items-center sticky top-0">
+        {!pecasLoading && (
+          <h3 className="text-xl font-semibold text-center mb-2">Pesquise pelo nome ou código das peças que você procura:</h3>
+        )}
+        {!pecasLoading && (
+          <section className="w-full flex flex-row items-center justify-center">
+            <input
+              value={pecasSearch}
+              onChange={({ target }) => setPecasSearch(target.value)}
+              onKeyPress={(e) => handlePecasQuery(e)}
+              className="w-full md:w-6/12 h-10 p-4 rounded-l border border-primary"
+            />
+            <button
+              type="button"
+              onClick={() => handleSearchPecas()}
+              className="h-10 p-4 bg-primary text-secondary flex flex-row items-center justify-center"
+            >
+              Pesquisar
+            </button>
+          </section>
+        )}
+        {isSearchPecas && (
+          <section className="w-full flex flex-row items-center justify-center mt-4">
+            <button
+              type="button"
+              onClick={() => handleClearSearchPecas()}
+              className="text-xl flex flex-row items-center justify-center h-10 p-4 bg-secondary text-primary"
+            >
+              Limpar Pesquisa
+              <MdSearchOff size={32} />
+            </button>
+          </section>
+        )}
+
+      </div>
       <div className="mt-6 flex flex-col items-center">
         <div className="flex md:flex-row flex-wrap flex-col w-10/12 items-center justify-start mb-8">
           {itemData && itemData.map((item, index) => (
@@ -103,7 +133,7 @@ function Body({ handleItemQtd, itemData }) {
                   setImgProdModal(true);
                 }}
               />
-              <h3 className="text-primary flex flex-col items-center justify-center text-center font-bold text-xl">{item.DESCRICAO}</h3>
+              <h3 className="text-primary flex flex-col items-center justify-center text-center font-bold text-xl">{item.DESCRICAO} {item.SLR !== '12' && item.Marca}</h3>
               <p>Ref: {item.REFERENCIA}</p>
               {/* {item.volume && !item.destaque && (
               <p>Embalagem: {item.volume}</p>
@@ -174,6 +204,7 @@ function Body({ handleItemQtd, itemData }) {
           closeAction={() => setImgProdModal(!imgProdModal)}
           width="90%"
           height="90%"
+          closeButton
         >
           <Img
             src={[imgFocusUrl, FallBackImageLarge]}
@@ -181,6 +212,108 @@ function Body({ handleItemQtd, itemData }) {
               width: '50%',
             }}
           />
+        </ModalComponent>
+        <ModalComponent
+          openState={carrinhoModal}
+          closeAction={setCarrinhoModal}
+          width="90%"
+          height="90%"
+        >
+          <div className="flex flex-row h-full w-full">
+            <ScrollContainer>
+              <div className="flex flex-col md:flex-row md:justify-between">
+                <div className="flex flex-col w-full md:w-3/4 px-2 md:p-4">
+                  <div className="">
+                    <h3 className="font-bold text-primary">Itens no carrinho</h3>
+                    {itemData && (
+                    <h3>{itemData && itemData.filter((item) => item.qtd > 0).length} {itemData && itemData.filter((item) => item.qtd > 0).length > 1 ? 'Itens' : 'Item'}</h3>
+                    )}
+                  </div>
+                  {itemData && itemData.filter((item) => item.qtd > 0).map((item) => (
+                    <div className="flex flex-col mb-4 border-b-2 pb-4 px-4 md:px-0">
+                      <div className="flex flex-row justify-between w-full">
+                        <section className="flex flex-row">
+                          <Img
+                            src={[item.imgData, FallBackImage]}
+                            style={{
+                              width: '70px',
+                            }}
+                          />
+                          <h3 className="font-semibold text-primary ml-2">
+                            {item.DESCRICAO}
+                          </h3>
+                        </section>
+                        <section>
+                          <button type="button" onClick={() => handleClearItemQtd(item.REFERENCIA)}>
+                            <FaWindowClose size={25} color="#E6BF27" />
+                          </button>
+                        </section>
+                      </div>
+                      <div className="flex flex-row justify-between w-full mt-2">
+                        <section className="flex flex-col">
+                          <h3 className="font-semibold text-gray-500 ml-2">
+                            Valor: R$ {item.newPrice.toLocaleString('pt-br', { minimumFractionDigits: 2 })}
+                          </h3>
+                          <h3 className="font-bold text-primary ml-2">
+                            Total: R$ {(item.newPrice * item.qtd).toLocaleString('pt-br', { minimumFractionDigits: 2 })}
+                          </h3>
+                        </section>
+                        <section className="flex flex-row items-center justify-between bg-primary w-1/2 md:w-1/4 rounded mt-4">
+                          <button className="bg-secondary py-2 px-4" type="button" onClick={() => handleItemQtd(item.REFERENCIA, '-')}>
+                            <p className="text-primary font-bold">-</p>
+                          </button>
+                          <h3 className="text-secondary font-bold">{item.qtd}</h3>
+                          <button className="bg-secondary py-2 px-4" type="button" onClick={() => handleItemQtd(item.REFERENCIA, '+')}>
+                            <p className="text-primary font-bold">+</p>
+                          </button>
+                        </section>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 w-full md:w-1/4 pb-4 px-8 md:px-0 mb-8">
+                  <h3 className="font-bold text-primary">Resumo</h3>
+                  <section className="flex flex-row justify-between border-b-2">
+                    <h3 className="font-semibold text-primary">Subtotal</h3>
+                    <h3 className="font-semibold text-primary">R$ {totalPrice.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
+                  </section>
+                  <section className="flex flex-col items-center justify-center">
+                    {!verifyUserData() && (
+                      <h3 className="mt-2 font-semibold text-red-500">Para finalizar preencha todos os dados do formulario</h3>
+                    )}
+                    <button
+                      onClick={() => finishOrcamento()}
+                      disabled={!verifyUserData()}
+                      className={`
+                      ${!verifyUserData() ? 'bg-gray-500' : 'bg-primary'}
+                      ${!verifyUserData() ? '' : 'border-secondary'}
+                      ${!verifyUserData() ? 'text-gray-400' : 'text-secondary '}
+                        py-2
+                        px-8
+                        rounded
+                        mt-4
+                        flex
+                        flex-row
+                        align-center
+                        justify-center
+                        border-2
+                      `}
+                      type="button"
+                    >
+                      <p className="font-bold text-xl">Finalizar</p>
+                    </button>
+                    <button
+                      onClick={setCarrinhoModal}
+                      className="bg-white py px-4 rounded mt-2 flex flex-row align-center justify-center border-2 border-secondary"
+                      type="button"
+                    >
+                      <p className="text-secondary font-bold">Continuar comprando</p>
+                    </button>
+                  </section>
+                </div>
+              </div>
+            </ScrollContainer>
+          </div>
         </ModalComponent>
       </div>
     </div>
