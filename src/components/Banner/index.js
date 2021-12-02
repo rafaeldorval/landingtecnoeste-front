@@ -4,6 +4,7 @@
 /* eslint-disable react/no-unknown-property */
 import React from 'react';
 import NumberFormat from 'react-number-format';
+// import PromoImg from '../../assets/images/novlogo.png';
 import './style.css';
 
 function Banner({
@@ -13,8 +14,9 @@ function Banner({
 }) {
   return (
     <div className="min-w-screen p-4 background-banner md:h-3/4 flex items-center justify-center flex-col">
-      <div className="flex-1 h-full mt-4 flex items-center justify-center flex-col md:pr-20">
-        <h3 className="text-3xl font-bold text-secondary text-center w-full md:w-10/12">ESSA PROMOÇÃO FOI ATÉ 30/09/2021</h3>
+      <div className="flex-1 h-full mt-4 flex items-center justify-center flex-col">
+        {/* <img className="md:w-2/5 w-full md:-mr-8" src={PromoImg} alt="product banner" /> */}
+        <h3 className="text-3xl font-bold text-secondary text-center w-full md:w-10/12">ESSA PROMOÇÃO FOI ATÉ 30/11/2021</h3>
         <h3 className="text-3xl font-bold text-white text-center w-full md:w-8/12">Mas deixe seu cadastro para receber as novas promoões</h3>
         <section className="w-full md:w-10/12 flex items-center justify-center flex-col mt-2 mb-2">
           <label for="inp-name" className="text-white w-full md:w-8/12 text-left">Nome:</label>

@@ -48,18 +48,19 @@ function App() {
         codVendedor: query.get('v'),
         origem: query.get('o'),
         dateLead: dateNow,
+        promoName: 'LEAD LANDING - SEM PROMO',
       };
 
       await axios.post('https://trecho.app.br:21124/lead', finalData);
       // await axios.post('http://localhost:21124/lead', finalData);
       NotificationManager.success(
         'Cadastro realizado sucesso',
-        'Cdastro',
+        'Cadastro landing',
       );
     } catch (error) {
       NotificationManager.error(
         'Ops, algo deu errado, tente novamente',
-        'Cdastro',
+        'Cadastro landing',
       );
     }
   }
