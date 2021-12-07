@@ -4,13 +4,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { format } from 'date-fns';
-import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import { create, all } from 'mathjs';
 import ReactGA from 'react-ga';
-import ptBr from 'date-fns/locale/pt-BR';
-import { NotificationManager, NotificationContainer } from 'react-notifications';
+import { NotificationContainer } from 'react-notifications';
 
 import PecasAction from '../../store/ducks/pecas';
 
@@ -20,6 +16,7 @@ import Footer from '../../components/Footer';
 import Body from './Body';
 import BodySelectLoja from './BodySelectLoja';
 
+import PreSideCart from '../../components/PreSideCart';
 import FAB from '../../components/FAB';
 import Header from '../../components/Header';
 import ScrollToTop from '../../components/ScrollToTop';
@@ -27,7 +24,6 @@ import LoadingScreen from '../../components/LoadingScreen';
 import VendedorData from '../../config/vendedorData';
 
 import 'react-notifications/lib/notifications.css';
-import { formatFloat } from '../../utils/formaters';
 
 export function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -39,12 +35,7 @@ export default function Home() {
   const bodyRef = useRef();
   const pecasLoading = useSelector((state) => state.pecas.loading);
   const lojaSelectStore = useSelector((state) => state.pecas.lojaSelect);
-  const pecasData = useSelector((state) => state.pecas.pecasData);
-  const formPgmData = useSelector((state) => state.pecas.formPgmData);
-  const [itemData, setItemData] = useState(null);
   const [carrinhoModalStatus, setCarrinhoModalStatus] = useState(false);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [totalPriceFator, setTotalPriceFator] = useState(0);
   const [initialized, setInitialized] = useState(false);
   const [clientData, setClientData] = useState({
     nome: '',
@@ -84,12 +75,6 @@ export default function Home() {
     }
   }, [lojaSelectStore]);
 
-  useEffect(() => {
-    if (pecasData) {
-      setItemData([...pecasData.docs]);
-    }
-  }, [pecasData]);
-
   function handleClearItemQtd(REFERENCIA) {
     dispatch(PecasAction.handleClearItemQtd(REFERENCIA));
   }
@@ -119,6 +104,7 @@ export default function Home() {
       {pecasLoading && (
         <LoadingScreen />
       )}
+      <PreSideCart />
       <Header />
       {lojaSelectStore && (
         <FAB />

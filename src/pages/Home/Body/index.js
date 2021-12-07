@@ -82,7 +82,7 @@ function Body({
         {/* <p>*Exceto itens que já estão na promoção da CS Challenge, Pneus, MR e VTS*</p>
         <p><b>Promoção válida 26/11/2021</b></p> */}
       </section>
-      <div className="w-full bg-white bg-opacity-80 flex flex-col items-center sticky top-0">
+      <div className="w-full bg-white bg-opacity-80 flex flex-col items-center z-40 sticky top-0">
         {!pecasLoading && (
           <h3 className="text-xl font-semibold text-center mb-2">Pesquise pelo nome ou código das peças que você procura:</h3>
         )}
