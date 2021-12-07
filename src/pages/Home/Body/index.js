@@ -1,27 +1,24 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable max-len */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Img } from 'react-image';
 import { AiOutlineArrowDown } from 'react-icons/ai';
 import { GiSandsOfTime } from 'react-icons/gi';
 import { MdSearchOff } from 'react-icons/md';
 import { FaWindowClose } from 'react-icons/fa';
-import PecasAction from '../../store/ducks/pecas';
+import PecasAction from '../../../store/ducks/pecas';
 
-import ModalComponent from '../ModalComponent';
-import FallBackImage from '../../assets/images/imgfallback.png';
-import FallBackImageLarge from '../../assets/images/imgfallbackLarge.jpg';
-import { formatFloat } from '../../utils/formaters';
+import ModalComponent from '../../../components/ModalComponent';
+import FallBackImage from '../../../assets/images/imgfallback.png';
+import FallBackImageLarge from '../../../assets/images/imgfallbackLarge.jpg';
+import { formatFloat } from '../../../utils/formaters';
 import './style.css';
-import ScrollContainer from '../ScrollComponent';
+import ScrollContainer from '../../../components/ScrollComponent';
 
 function Body({
-  handleItemQtd,
-  itemData,
   carrinhoModal,
   setCarrinhoModal,
-  totalPrice,
   handleClearItemQtd,
   clientData,
   finishOrcamento,
@@ -30,10 +27,18 @@ function Body({
   const pecasLoading = useSelector((state) => state.pecas.loading);
   const isSearchPecas = useSelector((state) => state.pecas.isSearchPecas);
   const pecasData = useSelector((state) => state.pecas.pecasData);
+  const totalPriceFator = useSelector((state) => state.pecas.totalPriceFator);
 
   const [pecasSearch, setPecasSearch] = useState('');
   const [imgProdModal, setImgProdModal] = useState(false);
   const [imgFocusUrl, setImgFocusUrl] = useState('');
+  const [itemData, setItemData] = useState(null);
+
+  useEffect(() => {
+    if (pecasData && pecasData.docs) {
+      setItemData(pecasData.docs);
+    }
+  }, [pecasData]);
 
   function handleSearchPecas() {
     window.scrollTo({
@@ -135,15 +140,6 @@ function Body({
               />
               <h3 className="text-primary flex flex-col items-center justify-center text-center font-bold text-xl">{item.DESCRICAO} {item.SLR !== '12' && item.Marca}</h3>
               <p>Ref: {item.REFERENCIA}</p>
-              {/* {item.volume && !item.destaque && (
-              <p>Embalagem: {item.volume}</p>
-              )} */}
-              {/* {!item.volume && !item.destaque && (
-              <p className="text-white">-</p>
-              )}
-              {item.destaque && (
-              <p className="bg-primary text-secondary px-2 uppercase font-semibold">{item.destaque}</p>
-              )} */}
               <p className="max-w-16 text-center mt-4 font-bold text-primary text-xl">
                 {item.SEFMP} {item.SEFMP === 1 ? 'disponível' : 'disponíveis'}
               </p>
@@ -153,17 +149,17 @@ function Body({
               </span>
               {item.qtd ? (
                 <section className="flex flex-row items-center justify-between bg-primary w-full md:w-2/3 rounded mt-4">
-                  <button className="bg-secondary py-2 px-4" type="button" onClick={() => handleItemQtd(item.REFERENCIA, '-')}>
+                  <button className="bg-secondary py-2 px-4" type="button" onClick={() => dispatch(PecasAction.handleItemQtd(item.REFERENCIA, '-'))}>
                     <p className="text-primary font-bold">-</p>
                   </button>
                   <h3 className="text-secondary font-bold">{item.qtd}</h3>
-                  <button className="bg-secondary py-2 px-4" type="button" onClick={() => handleItemQtd(item.REFERENCIA, '+')}>
+                  <button className="bg-secondary py-2 px-4" type="button" onClick={() => dispatch(PecasAction.handleItemQtd(item.REFERENCIA, '+'))}>
                     <p className="text-primary font-bold">+</p>
                   </button>
                 </section>
               ) : (
                 <button
-                  onClick={() => handleItemQtd(item.REFERENCIA, '+')}
+                  onClick={() => dispatch(PecasAction.handleItemQtd(item.REFERENCIA, '+'))}
                   className="bg-secondary py-2 w-full md:w-2/3 rounded mt-4"
                   type="button"
                 >
@@ -219,7 +215,7 @@ function Body({
           width="90%"
           height="90%"
         >
-          <div className="flex flex-row h-full w-full">
+          <div className="flex flex-row h-full w-full p-2 md:p-8">
             <ScrollContainer>
               <div className="flex flex-col md:flex-row md:justify-between">
                 <div className="flex flex-col w-full md:w-3/4 px-2 md:p-4">
@@ -259,11 +255,11 @@ function Body({
                           </h3>
                         </section>
                         <section className="flex flex-row items-center justify-between bg-primary w-1/2 md:w-1/4 rounded mt-4">
-                          <button className="bg-secondary py-2 px-4" type="button" onClick={() => handleItemQtd(item.REFERENCIA, '-')}>
+                          <button className="bg-secondary py-2 px-4" type="button" onClick={() => dispatch(PecasAction.handleItemQtd(item.REFERENCIA, '-'))}>
                             <p className="text-primary font-bold">-</p>
                           </button>
                           <h3 className="text-secondary font-bold">{item.qtd}</h3>
-                          <button className="bg-secondary py-2 px-4" type="button" onClick={() => handleItemQtd(item.REFERENCIA, '+')}>
+                          <button className="bg-secondary py-2 px-4" type="button" onClick={() => dispatch(PecasAction.handleItemQtd(item.REFERENCIA, '+'))}>
                             <p className="text-primary font-bold">+</p>
                           </button>
                         </section>
@@ -271,11 +267,11 @@ function Body({
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 w-full md:w-1/4 pb-4 px-8 md:px-0 mb-8">
+                <div className="mt-4 w-full md:w-1/4 pb-4 px-4 md:px-8 mb-8">
                   <h3 className="font-bold text-primary">Resumo</h3>
                   <section className="flex flex-row justify-between border-b-2">
                     <h3 className="font-semibold text-primary">Subtotal</h3>
-                    <h3 className="font-semibold text-primary">R$ {totalPrice.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
+                    <h3 className="font-semibold text-primary">R$ {totalPriceFator.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h3>
                   </section>
                   <section className="flex flex-col items-center justify-center">
                     {!verifyUserData() && (

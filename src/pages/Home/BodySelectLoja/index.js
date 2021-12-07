@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { NotificationManager } from 'react-notifications';
 import { useDispatch, useSelector } from 'react-redux';
-import PecasAction from '../../store/ducks/pecas';
+import PecasAction from '../../../store/ducks/pecas';
 
 import './style.css';
 

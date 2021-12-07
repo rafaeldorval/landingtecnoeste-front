@@ -6,22 +6,24 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/no-unknown-property */
 import React from 'react';
+import { useSelector } from 'react-redux';
 import NumberFormat from 'react-number-format';
-import PromoImg from '../../assets/images/novlogo.png';
-import formPagamento from './formPagamento';
-import { handleParcelaValuePecas } from '../../utils/formaters';
+import PromoImg from '../../../assets/images/novlogo.png';
+import { handleParcelaValuePecas } from '../../../utils/formaters';
 import './style.css';
 
 function Banner({
-  totalPrice,
   handleClientData,
   clientData,
   finishOrcamento,
-  totalPriceFator,
   handleFormPgt,
-  codFormaPgm,
   openCarrinho,
 }) {
+  const totalPrice = useSelector((store) => store.pecas.totalPrice);
+  const totalPriceFator = useSelector((store) => store.pecas.totalPriceFator);
+  const formPgmSelected = useSelector((store) => store.pecas.formPgmSelected);
+  const formPgmData = useSelector((store) => store.pecas.formPgmData);
+
   return (
     <div className="min-w-screen background-banner md:h-3/4 md:mb-36 flex flex-col items-center justify-center w-full">
       <div className="flex items-center justify-center flex-col md:flex-row h-11/12 w-full p-4">
@@ -72,14 +74,14 @@ function Banner({
             <label for="inp-formpagamento" className="text-white w-full md:w-8/12 text-left">Forma pagamento:</label>
             <select
               id="inp-formpagamento"
-              value={codFormaPgm}
+              value={formPgmSelected.CODIGO}
               onChange={({ target }) => handleFormPgt(target.value)}
               className="w-full md:w-8/12 rounded-3xl h-10 px-4"
             >
               {/* {formPagamento.map((pgt) => (
                 <option key={pgt.CODIGO} value={pgt.CODIGO}>{pgt.DESCRICAO}</option>
               ))} */}
-              {formPagamento.filter((row) => (row.LIMITEINFE ? totalPriceFator >= row.LIMITEINFE : true)).map((pgt) => (
+              {formPgmData.filter((row) => (row.LIMITEINFE ? totalPriceFator >= row.LIMITEINFE : true)).map((pgt) => (
                 <option key={pgt.CODIGO} value={pgt.CODIGO}>
                   {handleParcelaValuePecas(pgt, totalPrice)}
                 </option>

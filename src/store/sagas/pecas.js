@@ -1,11 +1,14 @@
 /* eslint-disable consistent-return */
 import { put, call, select } from 'redux-saga/effects';
-import { create, all } from 'mathjs';
+import { NotificationManager } from 'react-notifications';
+import { format } from 'date-fns';
+import axios from 'axios';
+import ptBr from 'date-fns/locale/pt-BR';
+
 import PecasActions from '../ducks/pecas';
 import api from '../../services/api';
+import { formatFloat } from '../../utils/formaters';
 // import { formatFloat } from '../../utils/formaters';
-const config = { };
-const math = create(all, config);
 
 export function* getPecas({ nextPage = false }) {
   try {
@@ -17,7 +20,7 @@ export function* getPecas({ nextPage = false }) {
       const filterData = data.docs.map((item) => ({
         ...item,
         // newPrice: Math.round(((item.PRECO) * 0.9) * 100) / 100,
-        newPrice: math.round((item.PRECO * 0.9), 2),
+        newPrice: formatFloat((item.PRECO * 0.9)),
         qtd: 0,
         imgData: `https://fenix.tecnoeste.net/imagens/pecas/slr-${item.SLR}-ref-${item.REFERENCIA}-cf--foto1.jpeg`,
       }));
@@ -30,7 +33,7 @@ export function* getPecas({ nextPage = false }) {
     const filterData = data.docs.map((item) => ({
       ...item,
       // newPrice: Math.round(((item.PRECO) * 0.9) * 100) / 100,
-      newPrice: math.round((item.PRECO * 0.9), 2),
+      newPrice: formatFloat((item.PRECO * 0.9)),
       qtd: 0,
       imgData: `https://fenix.tecnoeste.net/imagens/pecas/slr-${item.SLR}-ref-${item.REFERENCIA}-cf--foto1.jpeg`,
     }));
@@ -53,7 +56,7 @@ export function* searchPecas({ name, nextPage = false }) {
       const filterData = data.docs.map((item) => ({
         ...item,
         // newPrice: Math.round(((item.PRECO) * 0.9) * 100) / 100,
-        newPrice: math.round((item.PRECO * 0.9), 2),
+        newPrice: formatFloat((item.PRECO * 0.9)),
         qtd: 0,
         imgData: `https://fenix.tecnoeste.net/imagens/pecas/slr-${item.SLR}-ref-${item.REFERENCIA}-cf--foto1.jpeg`,
       }));
@@ -73,7 +76,7 @@ export function* searchPecas({ name, nextPage = false }) {
     const filterData = data.docs.map((item) => ({
       ...item,
       // newPrice: Math.round(((item.PRECO) * 0.9) * 100) / 100,
-      newPrice: math.round((item.PRECO * 0.9), 2),
+      newPrice: formatFloat((item.PRECO * 0.9)),
       qtd: 0,
       imgData: `https://fenix.tecnoeste.net/imagens/pecas/slr-${item.SLR}-ref-${item.REFERENCIA}-cf--foto1.jpeg`,
     }));
@@ -100,5 +103,41 @@ export function* clearPecas() {
     return yield put(PecasActions.setSearchPecas(false));
   } catch (error) {
     console.log(error);
+  }
+}
+
+export function* finishOrcamento({ data }) {
+  try {
+    const pecasData = yield select((store) => store.pecas.pecasData.docs);
+    const formPgmSelected = yield select((store) => store.pecas.formPgmSelected);
+    const totalPrice = yield select((store) => store.pecas.totalPrice);
+    const totalPriceFator = yield select((store) => store.pecas.totalPriceFator);
+    const lojaSelectStore = yield select((store) => store.pecas.lojaSelect);
+
+    const filterItens = totalPrice === 0 ? [] : pecasData.filter((item) => item.qtd);
+    const dateNow = format(Date.now(), 'dd/MM/yyyy - HH:mm:ss', { locale: ptBr });
+    const finalData = {
+      ...data,
+      produtos: filterItens,
+      loja: lojaSelectStore,
+      total: formatFloat(totalPrice, true),
+      totalMultFormPgt: formatFloat(totalPriceFator, true),
+      dateLead: dateNow,
+      formaPgmName: totalPrice === 0 ? '' : formPgmSelected.DESCRICAO,
+      promoName: 'BLACK FRIDAY - 26/11/2021',
+    };
+
+    yield call(axios.post, 'https://trecho.app.br:21124/lead', finalData);
+    NotificationManager.success(
+      'Orçamento gerado com sucesso, em breve um vendedor ira entrar em contato',
+      'Orçamento',
+    );
+    return yield put(PecasActions.finishOrcamentoSuccess());
+  } catch (error) {
+    NotificationManager.error(
+      'Ops, algo deu errado, tente novamente',
+      'Orçamento',
+    );
+    return yield put(PecasActions.loadingCancel());
   }
 }
