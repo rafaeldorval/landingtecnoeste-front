@@ -17,6 +17,7 @@ import Body from './Body';
 import BodySelectLoja from './BodySelectLoja';
 
 import PreSideCart from '../../components/PreSideCart';
+import PreSideCartMobile from '../../components/PreSideCartMobile';
 import FAB from '../../components/FAB';
 import Header from '../../components/Header';
 import ScrollToTop from '../../components/ScrollToTop';
@@ -35,6 +36,8 @@ export default function Home() {
   const bodyRef = useRef();
   const pecasLoading = useSelector((state) => state.pecas.loading);
   const lojaSelectStore = useSelector((state) => state.pecas.lojaSelect);
+  const totalPrice = useSelector((state) => state.pecas.totalPrice);
+  const sideCartStatus = useSelector((store) => store.pecas.sideCartStatus);
   const [carrinhoModalStatus, setCarrinhoModalStatus] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [clientData, setClientData] = useState({
@@ -100,11 +103,16 @@ export default function Home() {
   }
 
   return (
-    <div className="h-screen">
+    <div className="flex flex-col justify-between h-full">
       {pecasLoading && (
         <LoadingScreen />
       )}
-      <PreSideCart />
+      {totalPrice > 0 && (
+        <PreSideCart />
+      )}
+      {totalPrice > 0 && (
+        <PreSideCartMobile />
+      )}
       <Header />
       {lojaSelectStore && (
         <FAB />

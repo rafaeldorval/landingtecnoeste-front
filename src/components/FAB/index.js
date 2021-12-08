@@ -1,12 +1,16 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import CartIcon from '../../assets/images/cart.png';
 import { formatFloat } from '../../utils/formaters';
+import PecasActions from '../../store/ducks/pecas';
 import './style.css';
 
 function FAB() {
+  const dispatch = useDispatch();
   const totalPriceFator = useSelector((store) => store.pecas.totalPriceFator);
+  const sideCartStatus = useSelector((store) => store.pecas.sideCartStatus);
   const [showFab, setShowFab] = useState(false);
 
   const toggleVisible = () => {
@@ -37,14 +41,17 @@ function FAB() {
 
   return showFab && (
     <button
-      onClick={() => scrollToBottom()}
+      onClick={() => dispatch(PecasActions.setSideCartStatus(!sideCartStatus))}
+      // onClick={() => scrollToBottom()}
       type="button"
       className="
         flex
+        md:hidden
         flex-col
         items-center
         justify-center
         fixed
+        z-40
         right-fab-right
         bottom-fab-bottom"
     >

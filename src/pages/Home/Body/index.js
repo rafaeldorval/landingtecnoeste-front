@@ -76,16 +76,16 @@ function Body({
   }
 
   return (
-    <div className="pt-10 px-10 pb-0">
-      <section className="w-full flex flex-col items-center mb-12">
+    <div className="">
+      <section className="w-full flex flex-col items-center mb-12 pt-10 px-10 pb-0">
         <h3 className="text-4xl font-bold text-center">Escolha seu produto e aproveite essas ofertas</h3>
         {/* <p>*Exceto itens que já estão na promoção da CS Challenge, Pneus, MR e VTS*</p>
         <p><b>Promoção válida 26/11/2021</b></p> */}
       </section>
-      <div className="w-full bg-white bg-opacity-80 flex flex-col items-center z-40 sticky top-0">
-        {!pecasLoading && (
-          <h3 className="text-xl font-semibold text-center mb-2">Pesquise pelo nome ou código das peças que você procura:</h3>
-        )}
+      {!pecasLoading && (
+      <h3 className="text-xl font-semibold text-center mb-2">Pesquise pelo nome ou código das peças que você procura:</h3>
+      )}
+      <div className="w-full bg-white flex flex-col items-center sticky top-16 p-4 border-b-2">
         {!pecasLoading && (
           <section className="w-full flex flex-row items-center justify-center">
             <input
@@ -104,7 +104,7 @@ function Body({
           </section>
         )}
         {isSearchPecas && (
-          <section className="w-full flex flex-row items-center justify-center mt-4">
+          <section className="w-full flex flex-row items-center justify-center mt">
             <button
               type="button"
               onClick={() => handleClearSearchPecas()}

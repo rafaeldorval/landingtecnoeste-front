@@ -42,19 +42,20 @@ export default function PreSideCart() {
         bg-white
         h-screen
         z-50
-        p-2
+        p-4
         ${openSideCar && `
-          w-1/5
+          w-4/5
+          flex
           items-start
           justify-start
         `}
         ${!openSideCar && `
+          hidden
           items-center
           justify-center
         `}
         shadow-2xl
-        hidden
-        ${hiddenSideCar ? 'hidden' : 'md:flex'}
+        md:hidden
         flex-col
         fixed
         right-0`}
@@ -84,10 +85,10 @@ export default function PreSideCart() {
         {pecasData.docs.filter((pecas) => pecas.qtd > 0).map((item) => (
           <section className={`
             flex
+            w-full
             ${openSideCar && `
               flex-row
               items-start
-              justify-between
             `}
             ${!openSideCar && `
               flex-col

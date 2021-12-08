@@ -23,6 +23,7 @@ const { Types, Creators } = createActions({
   handleClearItemQtd: ['ref'],
   handleFormPgt: ['value'],
   setLoading: ['data'],
+  setSideCartStatus: ['data'],
   setLoja: ['data'],
   setCarrinho: ['data'],
 });
@@ -42,6 +43,7 @@ export const INITIAL_STATE = {
   totalPriceFator: 0,
   formPgmData: formPagamentoData,
   formPgmSelected: formPagamentoInicial,
+  sideCartStatus: false,
   loading: false,
 };
 
@@ -191,6 +193,11 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.LOADING_CANCEL]: (state = INITIAL_STATE) => ({
     ...state,
     loading: false,
+  }),
+
+  [Types.SET_SIDE_CART_STATUS]: (state = INITIAL_STATE, { data }) => ({
+    ...state,
+    sideCartStatus: data,
   }),
 
   [Types.SET_LOADING]: (state = INITIAL_STATE, { data }) => ({

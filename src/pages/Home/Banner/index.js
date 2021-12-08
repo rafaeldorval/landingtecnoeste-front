@@ -25,7 +25,7 @@ function Banner({
   const formPgmData = useSelector((store) => store.pecas.formPgmData);
 
   return (
-    <div className="min-w-screen background-banner md:h-3/4 md:mb-36 flex flex-col items-center justify-center w-full">
+    <div className="min-w-screen background-banner p-12 md:h-3/4 md:mb-36 flex flex-col items-center justify-center w-full">
       <div className="flex items-center justify-center flex-col md:flex-row h-11/12 w-full p-4">
         <div className="md:flex-1 md:h-full flex flex-col items-center justify-center">
           <img className="md:w-4/5 w-full md:-mr-8" src={PromoImg} alt="product banner" />
