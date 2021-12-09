@@ -3,6 +3,7 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable no-unused-vars */
 import React from 'react';
+import { NotificationContainer } from 'react-notifications';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 
@@ -17,6 +18,7 @@ function App() {
     <Provider store={store}>
       <Router>
         <Routes />
+        <NotificationContainer />
       </Router>
     </Provider>
   );

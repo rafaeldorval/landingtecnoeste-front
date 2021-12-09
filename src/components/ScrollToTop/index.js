@@ -31,6 +31,7 @@ function FAB() {
             flex-col
             items-center
             justify-center
+            z-40
             fixed
             left-fab-left
             bottom-fab-bottom-scroll"

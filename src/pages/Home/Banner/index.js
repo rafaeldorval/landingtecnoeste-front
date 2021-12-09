@@ -78,9 +78,6 @@ function Banner({
               onChange={({ target }) => handleFormPgt(target.value)}
               className="w-full md:w-8/12 rounded-3xl h-10 px-4"
             >
-              {/* {formPagamento.map((pgt) => (
-                <option key={pgt.CODIGO} value={pgt.CODIGO}>{pgt.DESCRICAO}</option>
-              ))} */}
               {formPgmData.filter((row) => (row.LIMITEINFE ? totalPriceFator >= row.LIMITEINFE : true)).map((pgt) => (
                 <option key={pgt.CODIGO} value={pgt.CODIGO}>
                   {handleParcelaValuePecas(pgt, totalPrice)}
@@ -89,21 +86,6 @@ function Banner({
             </select>
           </section>
           )}
-          {/* <section className="w-full md:w-10/12 flex items-center justify-center flex-col mt-2 mb-2">
-            <label for="inp-formpagamento" className="text-white w-full md:w-8/12 text-left">Escolha a loja de atendimento:</label>
-            <select
-              id="inp-formpagamento"
-              value={clientData.loja}
-              onChange={({ target }) => handleClientData(target.value, 'loja')}
-              className="w-full md:w-8/12 rounded-3xl h-10 px-4"
-            >
-              {lojasData.map((loja) => (
-                <option key={loja.cod} value={loja.cod}>
-                  {loja.nome}
-                </option>
-              ))}
-            </select>
-          </section> */}
           <button
             type="button"
             className="bg-secondary w-full md:w-2/5 h-12 rounded-3xl mt-2 mb-60 md:mb-8"
