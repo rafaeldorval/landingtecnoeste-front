@@ -6,11 +6,13 @@ import { IoCart } from 'react-icons/io5';
 import { Img } from 'react-image';
 
 import PecasAction from '../../store/ducks/pecas';
+import ClientAction from '../../store/ducks/client';
 import LogoTecnoeste from '../../assets/images/logotecnoeste.png';
 
 function SectionFooter() {
   const dispatch = useDispatch();
   const pecasData = useSelector((store) => store.pecas.pecasData);
+  const loginModalStatus = useSelector((store) => store.client.loginModalStatus);
 
   return (
     <div className="min-w-screen w-full bg-black p-2 sticky sticky top-0 flex flex-row justify-between items-center">
@@ -24,7 +26,11 @@ function SectionFooter() {
         />
       </a>
       <div className="flex flex-row items-center mr-8 md:mr-24">
-        <button type="button" className="flex flex-row items-center mr-4">
+        <button
+          type="button"
+          className="flex flex-row items-center mr-4"
+          onClick={() => dispatch(ClientAction.setLoginModalStatus(!loginModalStatus))}
+        >
           <FaUserAlt size={15} color="#E6BF27" />
           <h3 className="mx-2 text-white text-secondary font-semibold">Entrar</h3>
           <IoIosArrowDown size={15} color="#E6BF27" />

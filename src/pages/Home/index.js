@@ -15,6 +15,7 @@ import BodySelectLoja from './BodySelectLoja';
 
 import PreSideCart from '../../components/PreSideCart';
 import PreSideCartMobile from '../../components/PreSideCartMobile';
+import LoginModal from '../../components/LoginModal';
 import Header from '../../components/Header';
 import ScrollToTop from '../../components/ScrollToTop';
 import LoadingScreen from '../../components/LoadingScreen';
@@ -93,6 +94,7 @@ export default function Home() {
       {!lojaSelectStore && (
         <BodySelectLoja />
       )}
+      <LoginModal />
       <Footer />
     </div>
   );
