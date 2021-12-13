@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ClientActions from '../../store/ducks/client';
@@ -10,6 +10,16 @@ import ModalComponent from '../ModalComponent';
 export default function LoginModal() {
   const dispatch = useDispatch();
   const loginModal = useSelector((store) => store.client.loginModalStatus);
+
+  const [userData, setUserData] = useState({
+    docEmail: '',
+    senha: '',
+  });
+
+  function handleUserLogin() {
+    return dispatch(ClientActions.userLoginRequest(userData));
+  }
+
   return (
     <div className="">
       {/* Versçao mobile */}
@@ -26,14 +36,23 @@ export default function LoginModal() {
                 <h3 className="font-semibold mb-4 text-2xl">Login</h3>
                 <section className="flex flex-col items-start w-full">
                   <span>Email ou CPF/CNPJ</span>
-                  <input className="w-full h-10 p-4 rounded-l border border-primary" />
+                  <input
+                    value={userData.docEmail}
+                    onChange={({ target }) => setUserData({ ...userData, docEmail: target.value })}
+                    className="w-full h-10 p-4 rounded-l border border-primary"
+                  />
                 </section>
                 <section className="flex flex-col items-start w-full">
                   <span>Senha</span>
-                  <input className="w-full h-10 p-4 rounded-l border border-primary" />
+                  <input
+                    type="password"
+                    value={userData.senha}
+                    onChange={({ target }) => setUserData({ ...userData, senha: target.value })}
+                    className="w-full h-10 p-4 rounded-l border border-primary"
+                  />
                 </section>
                 <button
-                  onClick={() => {}}
+                  onClick={() => handleUserLogin()}
                   className={`
                     bg-secondary
                     py
@@ -76,14 +95,23 @@ export default function LoginModal() {
                 <h3 className="font-semibold mb-4">Login</h3>
                 <section className="w-full">
                   <span>Email ou CPF/CNPJ</span>
-                  <input className="w-full md:w-6/12 h-10 p-4 rounded-l border border-primary" />
+                  <input
+                    value={userData.docEmail}
+                    onChange={({ target }) => setUserData({ ...userData, docEmail: target.value })}
+                    className="w-full md:w-6/12 h-10 p-4 rounded-l border border-primary"
+                  />
                 </section>
                 <section className="w-full">
                   <span>Senha</span>
-                  <input className="w-full md:w-6/12 h-10 p-4 rounded-l border border-primary" />
+                  <input
+                    type="password"
+                    value={userData.senha}
+                    onChange={({ target }) => setUserData({ ...userData, senha: target.value })}
+                    className="w-full md:w-6/12 h-10 p-4 rounded-l border border-primary"
+                  />
                 </section>
                 <button
-                  onClick={() => {}}
+                  onClick={() => handleUserLogin()}
                   className={`
                     bg-secondary
                     py

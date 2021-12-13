@@ -6,6 +6,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import ReactGA from 'react-ga';
+import Cookies from 'universal-cookie';
+import NavigationAction from '../../store/ducks/navigation';
 import PecasAction from '../../store/ducks/pecas';
 
 import HomeSection from './HomeSection';
@@ -27,7 +29,7 @@ export function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-export default function Home() {
+export default function Home({ history }) {
   const dispatch = useDispatch();
   const query = useQuery();
   const pecasLoading = useSelector((state) => state.pecas.loading);
@@ -46,6 +48,7 @@ export default function Home() {
     if (!window.location.href.includes('localhost')) {
       ReactGA.initialize('G-43LVTPTNBJ');
     }
+    dispatch(NavigationAction.setNavigation({ ...history }));
     setInitialized(true);
   }, []);
 
@@ -56,13 +59,22 @@ export default function Home() {
   }, [initialized]);
 
   useEffect(() => {
+    const cookie = new Cookies();
+
     const vendedorQuery = query.get('v');
+    const origemQuery = query.get('o');
+
     if (vendedorQuery) {
+      cookie.set('v', vendedorQuery);
       const vendedorFilter = VendedorData.filter((vend) => vend.codVendedor === vendedorQuery);
 
       if (vendedorFilter.length > 0) {
         dispatch(PecasAction.setLoja(vendedorFilter[0].loja));
       }
+    }
+
+    if (origemQuery) {
+      cookie.set('o', vendedorQuery);
     }
   }, []);
 

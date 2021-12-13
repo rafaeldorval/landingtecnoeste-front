@@ -6,7 +6,7 @@ import axios from 'axios';
 import ptBr from 'date-fns/locale/pt-BR';
 
 import PecasActions from '../ducks/pecas';
-import api from '../../services/api';
+import api from '../../services/apiFenix';
 import { formatFloat } from '../../utils/formaters';
 // import { formatFloat } from '../../utils/formaters';
 

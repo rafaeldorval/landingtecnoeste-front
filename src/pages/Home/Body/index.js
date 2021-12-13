@@ -66,7 +66,7 @@ function Body() {
       {!pecasLoading && (
       <h3 className="text-xl font-semibold text-center mb-2">Pesquise pelo nome ou código das peças que você procura:</h3>
       )}
-      <div className="w-full bg-white flex flex-col items-center sticky top-16 p-4 border-b-2">
+      <div className="w-full bg-white flex flex-col items-center sticky top-14 p-4 border-b-2">
         {!pecasLoading && (
           <section className="w-full flex flex-row items-center justify-center">
             <input
