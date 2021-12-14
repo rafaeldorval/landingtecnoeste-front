@@ -25,7 +25,9 @@ const { Types, Creators } = createActions({
   setLoading: ['data'],
   setSideCartStatus: ['data'],
   setLoja: ['data'],
+  setCartStep: ['data'],
   setCarrinho: ['data'],
+  clearPrices: null,
 });
 
 export const PecasTypes = Types;
@@ -41,6 +43,7 @@ export const INITIAL_STATE = {
   carrinho: null,
   totalPrice: 0,
   totalPriceFator: 0,
+  cartStep: 1,
   formPgmData: formPagamentoData,
   formPgmSelected: formPagamentoInicial,
   sideCartStatus: false,
@@ -83,7 +86,7 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.FINISH_ORCAMENTO_REQUEST]: (state = INITIAL_STATE) => ({
     ...state,
-    loading: false,
+    loading: true,
   }),
 
   [Types.FINISH_ORCAMENTO_SUCCESS]: (state = INITIAL_STATE) => ({
@@ -195,6 +198,11 @@ export const reducer = createReducer(INITIAL_STATE, {
     loading: false,
   }),
 
+  [Types.SET_CART_STEP]: (state = INITIAL_STATE, { data }) => ({
+    ...state,
+    cartStep: data,
+  }),
+
   [Types.SET_SIDE_CART_STATUS]: (state = INITIAL_STATE, { data }) => ({
     ...state,
     sideCartStatus: data,
@@ -213,5 +221,10 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_CARRINHO]: (state = INITIAL_STATE, { data }) => ({
     ...state,
     carrinho: data,
+  }),
+  [Types.CLEAR_PRICES]: (state = INITIAL_STATE) => ({
+    ...state,
+    totalPrice: 0,
+    totalPriceFator: 0,
   }),
 });

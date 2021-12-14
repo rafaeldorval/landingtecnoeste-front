@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { Img } from 'react-image';
+import { useHistory } from 'react-router-dom';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { FaWindowClose } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,9 +14,12 @@ import { formatFloat } from '../../utils/formaters';
 
 export default function PreSideCart() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const clientDataStore = useSelector((store) => store.client.clientData);
   const pecasData = useSelector((store) => store.pecas.pecasData);
   const totalPriceFator = useSelector((store) => store.pecas.totalPriceFator);
   const sideCartStatus = useSelector((store) => store.pecas.sideCartStatus);
+
   const [openSideCar, setOpenSideCar] = useState(true);
   const [hiddenSideCar, setHiddenSideCar] = useState(false);
 
@@ -33,7 +37,6 @@ export default function PreSideCart() {
 
   useEffect(() => {
     setOpenSideCar(sideCartStatus);
-    console.tron.log('sideCartStatus', sideCartStatus);
   }, [sideCartStatus]);
 
   return (
@@ -164,7 +167,7 @@ export default function PreSideCart() {
             Total: R$ {formatFloat(totalPriceFator, true)}
           </h3>
           <button
-            onClick={() => {}}
+            onClick={() => (clientDataStore ? history.push('/checkout') : history.push('/user/acess'))}
             className={`
               bg-secondary
               py

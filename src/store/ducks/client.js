@@ -15,6 +15,7 @@ const { Types, Creators } = createActions({
   userLoginSuccess: ['data'],
   setLoginModalStatus: ['data'],
   setRegisterFormStep: ['data'],
+  setClientData: ['data'],
   loadingCancel: null,
 });
 
@@ -78,6 +79,11 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_LOGIN_MODAL_STATUS]: (state = INITIAL_STATE, { data }) => ({
     ...state,
     loginModalStatus: data,
+  }),
+
+  [Types.SET_CLIENT_DATA]: (state = INITIAL_STATE, { data }) => ({
+    ...state,
+    clientData: data,
   }),
 
   [Types.LOADING_CANCEL]: (state = INITIAL_STATE) => ({

@@ -6,14 +6,17 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import ClientActions from '../../store/ducks/client';
 
 import HomePage from '../../pages/Home';
+import ClientAcess from '../../pages/ClientAcess';
 import RegisterClient from '../../pages/RegisterClient';
+import FinishOrcamento from '../../pages/FinishOrcamento';
+
 import { isAuthenticated } from '../../services/auth';
 
 function Routes() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated()) {
       dispatch(ClientActions.getClientInfoRequest());
     }
   }, []);
@@ -21,6 +24,8 @@ function Routes() {
   return (
     <Switch>
       <Route exact path="/" component={HomePage} />
+      <Route exact path="/checkout" component={FinishOrcamento} />
+      <Route exact path="/user/acess" component={ClientAcess} />
       <Route exact path="/user/register" component={RegisterClient} />
     </Switch>
   );

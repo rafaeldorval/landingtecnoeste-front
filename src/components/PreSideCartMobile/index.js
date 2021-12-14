@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Img } from 'react-image';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { useHistory } from 'react-router-dom';
 import { FaWindowClose } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import PecasAction from '../../store/ducks/pecas';
@@ -13,9 +14,12 @@ import { formatFloat } from '../../utils/formaters';
 
 export default function PreSideCart() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const pecasData = useSelector((store) => store.pecas.pecasData);
+  const clientDataStore = useSelector((store) => store.client.clientData);
   const totalPriceFator = useSelector((store) => store.pecas.totalPriceFator);
   const sideCartStatus = useSelector((store) => store.pecas.sideCartStatus);
+
   const [openSideCar, setOpenSideCar] = useState(true);
   const [hiddenSideCar, setHiddenSideCar] = useState(false);
 
@@ -165,7 +169,7 @@ export default function PreSideCart() {
             Total: R$ {formatFloat(totalPriceFator, true)}
           </h3>
           <button
-            onClick={() => {}}
+            onClick={() => (clientDataStore ? history.push('/checkout') : history.push('/user/acess'))}
             className={`
               bg-secondary
               py

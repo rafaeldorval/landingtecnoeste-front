@@ -90,7 +90,7 @@ export function* createClient({ data }) {
     if (error.response) {
       if (error.response.status === 405) {
         NotificationManager.error(
-          'CPF/CNPJ Já cadastrado',
+          'CPF/CNPJ ou EMAIL Já cadastrado',
           'Novo cliente',
         );
       }
