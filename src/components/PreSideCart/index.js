@@ -167,7 +167,7 @@ export default function PreSideCart() {
             Total: R$ {formatFloat(totalPriceFator, true)}
           </h3>
           <button
-            onClick={() => (clientDataStore ? history.push('/checkout') : history.push('/user/acess'))}
+            onClick={() => (clientDataStore ? history.push('/app/checkout') : history.push('/app/user/acess'))}
             className={`
               bg-secondary
               py

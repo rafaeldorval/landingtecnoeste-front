@@ -23,10 +23,10 @@ function Routes() {
 
   return (
     <Switch>
-      <Route exact path="/" component={HomePage} />
-      <Route exact path="/checkout" component={FinishOrcamento} />
-      <Route exact path="/user/acess" component={ClientAcess} />
-      <Route exact path="/user/register" component={RegisterClient} />
+      <Route exact path="/app" component={HomePage} />
+      <Route exact path="/app/checkout" component={FinishOrcamento} />
+      <Route exact path="/app/user/acess" component={ClientAcess} />
+      <Route exact path="/app/user/register" component={RegisterClient} />
     </Switch>
   );
 }

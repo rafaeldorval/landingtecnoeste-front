@@ -11,7 +11,9 @@ const { Types, Creators } = createActions({
   createClientSuccess: null,
   getClientInfoRequest: null,
   getClientInfoSuccess: ['data'],
-  userLoginRequest: ['data'],
+  getPedidosClientRequest: null,
+  getPedidosClientSuccess: ['data'],
+  userLoginRequest: ['data', 'navigation'],
   userLoginSuccess: ['data'],
   setLoginModalStatus: ['data'],
   setRegisterFormStep: ['data'],
@@ -28,6 +30,7 @@ export const INITIAL_STATE = {
   loginModalStatus: false,
   registerFormStep: 0,
   clientData: null,
+  pedidosData: null,
   loading: false,
 };
 
@@ -58,6 +61,17 @@ export const reducer = createReducer(INITIAL_STATE, {
   }),
   [Types.USER_LOGIN_SUCCESS]: (state = INITIAL_STATE, { data }) => ({
     ...state,
+    loading: false,
+  }),
+
+  [Types.GET_PEDIDOS_CLIENT_REQUEST]: (state = INITIAL_STATE) => ({
+    ...state,
+    loading: true,
+  }),
+
+  [Types.GET_PEDIDOS_CLIENT_SUCCESS]: (state = INITIAL_STATE, { data }) => ({
+    ...state,
+    pedidosData: data,
     loading: false,
   }),
 

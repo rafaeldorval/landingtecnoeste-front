@@ -16,7 +16,7 @@ export function* getPecas({ nextPage = false }) {
     const lojaSelect = yield select((store) => store.pecas.lojaSelect);
 
     if (nextPage && pecasData.hasNextPage) {
-      const { data } = yield call(apiFenix.get, `/?l=${lojaSelect}&limit=20${(nextPage && pecasData.hasNextPage) ? `&page=${pecasData.nextPage}` : ''}`);
+      const { data } = yield call(apiFenix.get, `/app?l=${lojaSelect}&limit=20${(nextPage && pecasData.hasNextPage) ? `&page=${pecasData.nextPage}` : ''}`);
       const filterData = data.docs.map((item) => ({
         ...item,
         // newPrice: Math.round(((item.PRECO) * 0.9) * 100) / 100,
@@ -29,7 +29,7 @@ export function* getPecas({ nextPage = false }) {
       return yield put(PecasActions.getPecasSuccess(data));
     }
 
-    const { data } = yield call(apiFenix.get, `/?l=${lojaSelect}&limit=20${(nextPage && pecasData.hasNextPage) ? `&page=${pecasData.nextPage}` : ''}`);
+    const { data } = yield call(apiFenix.get, `/app?l=${lojaSelect}&limit=20${(nextPage && pecasData.hasNextPage) ? `&page=${pecasData.nextPage}` : ''}`);
     const filterData = data.docs.map((item) => ({
       ...item,
       // newPrice: Math.round(((item.PRECO) * 0.9) * 100) / 100,
@@ -52,7 +52,7 @@ export function* searchPecas({ name, nextPage = false }) {
     const isSearchPecas = yield select((store) => store.pecas.isSearchPecas);
 
     if (nextPage && pecasData.hasNextPage) {
-      const { data } = yield call(apiFenix.get, `/?l=${lojaSelect}&limit=20&search=${name.toUpperCase()}${(nextPage && pecasData.hasNextPage) ? `&page=${pecasData.nextPage}` : ''}`);
+      const { data } = yield call(apiFenix.get, `/app?l=${lojaSelect}&limit=20&search=${name.toUpperCase()}${(nextPage && pecasData.hasNextPage) ? `&page=${pecasData.nextPage}` : ''}`);
       const filterData = data.docs.map((item) => ({
         ...item,
         // newPrice: Math.round(((item.PRECO) * 0.9) * 100) / 100,
@@ -72,7 +72,7 @@ export function* searchPecas({ name, nextPage = false }) {
       return yield put(PecasActions.getSearchPecasSuccess(data));
     }
 
-    const { data } = yield call(apiFenix.get, `/?l=${lojaSelect}&limit=20&search=${name.toUpperCase()}`);
+    const { data } = yield call(apiFenix.get, `/app?l=${lojaSelect}&limit=20&search=${name.toUpperCase()}`);
     const filterData = data.docs.map((item) => ({
       ...item,
       // newPrice: Math.round(((item.PRECO) * 0.9) * 100) / 100,
@@ -125,6 +125,7 @@ export function* finishOrcamento({ data }) {
       totalMultFormPgt: formatFloat(totalPriceFator, true),
       dateLead: dateNow,
       formaPgmName: totalPrice === 0 ? '' : formPgmSelected.DESCRICAO,
+      codFormaPgm: totalPrice === 0 ? '' : formPgmSelected.CODIGO,
       promoName: 'BLACK FRIDAY - 26/11/2021',
     };
 

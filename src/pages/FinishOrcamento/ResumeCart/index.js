@@ -32,14 +32,14 @@ export default function ResumeCart() {
       setClientData({
         cliente_id: clientDataStore._id,
         nome: clientDataStore.nome,
-        celular: clientDataStore.celular,
+        celular: clientDataStore.celular ? clientDataStore.celular : clientDataStore.telefone,
         email: clientDataStore.email,
       });
 
       setOldClientData({
         cliente_id: clientDataStore._id,
         nome: clientDataStore.nome,
-        celular: clientDataStore.celular,
+        celular: clientDataStore.celular ? clientDataStore.celular : clientDataStore.telefone,
         email: clientDataStore.email,
       });
     }
@@ -72,7 +72,7 @@ export default function ResumeCart() {
   function handleFinishPedido() {
     return dispatch(PecasAction.finishOrcamentoRequest({
       ...clientData,
-      telefone: clientData.celular,
+      telefone: clientData.celular ? clientData.celular : clientData.telefone,
     }));
   }
 

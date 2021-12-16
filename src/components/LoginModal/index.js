@@ -75,7 +75,7 @@ export default function LoginModal() {
                 <Link to="/">
                   <h3 className="font-bold text-secondaryDark">Esqueci minha SENHA</h3>
                 </Link>
-                <Link to="/user/register">
+                <Link to="/app/user/register">
                   <h3 className="flex flex-row">
                     Novo usuário?<h3 className="font-bold text-secondaryDark ml-2">Cadastre-se aqui</h3>
                   </h3>

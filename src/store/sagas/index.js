@@ -14,6 +14,7 @@ import {
   createClient,
   getClientInfo,
   userLogin,
+  getPedidos,
 } from './client';
 
 export default function* rootSaga() {
@@ -25,6 +26,7 @@ export default function* rootSaga() {
     takeLatest(ClientTypes.VERIFY_CLIENT_EXIST_REQUEST, clientVerify),
     takeLatest(ClientTypes.CREATE_CLIENT_REQUEST, createClient),
     takeLatest(ClientTypes.GET_CLIENT_INFO_REQUEST, getClientInfo),
+    takeLatest(ClientTypes.GET_PEDIDOS_CLIENT_REQUEST, getPedidos),
     takeLatest(ClientTypes.USER_LOGIN_REQUEST, userLogin),
   ]);
 }

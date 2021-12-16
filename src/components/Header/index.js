@@ -1,6 +1,7 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import Cookies from 'universal-cookie';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { FaUserAlt } from 'react-icons/fa';
 import { IoIosArrowDown } from 'react-icons/io';
@@ -12,6 +13,7 @@ import ClientAction from '../../store/ducks/client';
 import LogoTecnoeste from '../../assets/images/logotecnoeste.png';
 
 function Header({ showUserAction = true, stickOff = false }) {
+  const history = useHistory();
   const cookie = new Cookies();
   const dispatch = useDispatch();
   const pecasData = useSelector((store) => store.pecas.pecasData);
@@ -30,7 +32,7 @@ function Header({ showUserAction = true, stickOff = false }) {
 
   return (
     <div className={`min-w-screen w-full bg-black p-2 ${stickOff ? '' : 'sticky'} top-0 flex flex-row justify-between items-center`}>
-      <Link onClick={() => handleGoHome()} to={`/?${queryV ? `v=${queryV}&` : ''}${queryO ? `o=${queryO}` : ''}`}>
+      <Link onClick={() => handleGoHome()} to={`/app?${queryV ? `v=${queryV}&` : ''}${queryO ? `o=${queryO}` : ''}`}>
         <Img
           src={LogoTecnoeste}
           alt="logo tecnoeste"
@@ -44,14 +46,14 @@ function Header({ showUserAction = true, stickOff = false }) {
           <button
             type="button"
             className="flex flex-row items-center mr-4"
-            onClick={() => (clientData
-              ? () => {}
+            onClick={() => (clientData && clientData._id
+              ? history.push('/cliente/pedidos')
               : dispatch(ClientAction.setLoginModalStatus(!loginModalStatus))
             )}
           >
             <FaUserAlt size={15} color="#E6BF27" />
             <h3 className="mx-2 text-white text-secondary font-semibold capitalize">
-              { clientData ? clientData.firstName : 'Entrar'}
+              { clientData && clientData._id ? clientData.firstName : 'Entrar'}
             </h3>
             <IoIosArrowDown size={15} color="#E6BF27" />
           </button>

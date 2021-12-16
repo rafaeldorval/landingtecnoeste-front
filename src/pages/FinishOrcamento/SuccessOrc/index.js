@@ -20,7 +20,7 @@ export default function SuccessOrc() {
     dispatch(PecasActions.setCartStep(1));
     dispatch(PecasActions.clearPrices());
 
-    return navigation.push(`/?${queryV ? `v=${queryV}&` : ''}${queryO ? `o=${queryO}` : ''}`);
+    return navigation.push(`/app?${queryV ? `v=${queryV}&` : ''}${queryO ? `o=${queryO}` : ''}`);
   }
   return (
     <div className="flex flex-col items-center mt-8 shadow bg-white w-full p-12">

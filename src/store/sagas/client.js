@@ -25,6 +25,25 @@ export function* clientVerify({ data }) {
   }
 }
 
+export function* getPedidos() {
+  try {
+    const { data } = yield call(api.get, '/lead/client-logged');
+
+    if (data.leads && data.leads.produtos) {
+      const formatedProdutos = data.leads.produtos.map((prod) => ({
+        ...prod,
+        imgData: `https://fenix.tecnoeste.net/imagens/pecas/slr-${prod.SLR}-ref-${prod.REFERENCIA}-cf--foto1.jpeg`,
+      }));
+
+      data.produtos = formatedProdutos;
+    }
+
+    return yield put(ClientActions.getPedidosClientSuccess(data.leads));
+  } catch (error) {
+    return yield put(ClientActions.loadingCancel());
+  }
+}
+
 export function* getClientInfo() {
   try {
     const { data } = yield call(api.get, '/client/logged-info');
@@ -38,9 +57,10 @@ export function* getClientInfo() {
   }
 }
 
-export function* userLogin({ data }) {
+export function* userLogin({ data, navigation }) {
   try {
     const { data: response } = yield call(api.post, '/client/login', data);
+    const navigationStore = yield select((store) => store.navigation.navigation);
 
     NotificationManager.success(
       'Login realizado com sucesso',
@@ -51,13 +71,19 @@ export function* userLogin({ data }) {
 
     yield call(getClientInfo);
     yield put(ClientActions.setLoginModalStatus(false));
-    return yield put(ClientActions.createClientSuccess());
+
+    if (navigation) {
+      console.tron.log('navigation', navigation);
+      navigationStore.push(navigation);
+    }
+
+    return yield put(ClientActions.userLoginSuccess());
   } catch (error) {
     if (error.response) {
-      if (error.response.status === 405) {
+      if (error.response.status === 401) {
         NotificationManager.error(
-          'CPF/CNPJ Já cadastrado',
-          'Novo cliente',
+          'CPF/CNPJ ou EMAIL estão incorreto',
+          'Login',
         );
       }
     }
@@ -81,7 +107,7 @@ export function* createClient({ data }) {
     const queryV = cookie.get('v');
     const queryO = cookie.get('o');
 
-    navigation.push(`/?${queryV ? `v=${queryV}&` : ''}${queryO ? `o=${queryO}` : ''}`);
+    navigation.push(`/app?${queryV ? `v=${queryV}&` : ''}${queryO ? `o=${queryO}` : ''}`);
     yield call(getClientInfo);
     yield put(ClientActions.setLoginModalStatus(false));
     yield put(ClientActions.setRegisterFormStep(0));
