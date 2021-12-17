@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { NotificationManager } from 'react-notifications';
 import NumberFormat from 'react-number-format';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import NavigationActions from '../../store/ducks/navigation';
 import ClientActions from '../../store/ducks/client';
 import Header from '../../components/Header';
+import RecoveryPasswordModal from '../../components/RecoveryPasswordModal';
 // import { Container } from './styles';
 
 export default function ClientAcess() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const recoveryPasswordModal = useSelector((store) => store.client.recoveryPasswordModal);
   const [userData, setUserData] = useState({
     docEmail: '',
     senha: '',
@@ -109,9 +111,15 @@ export default function ClientAcess() {
               <p className="font-bold text-xl">Entrar</p>
             </button>
             <div className="mt-8">
-              <Link to="/">
+              <button
+                type="button"
+                onClick={() => dispatch(ClientActions.setRecoveryPasswordModal({
+                  status: !recoveryPasswordModal.status,
+                  step: 0,
+                }))}
+              >
                 <h3 className="font-bold text-secondaryDark">Esqueci minha SENHA</h3>
-              </Link>
+              </button>
               <Link to="/app/user/register">
                 <h3 className="flex flex-row">
                   Novo usuário?<h3 className="font-bold text-secondaryDark ml-2">Cadastre-se aqui</h3>
@@ -206,6 +214,7 @@ export default function ClientAcess() {
           </div>
         </div>
       </div>
+      <RecoveryPasswordModal />
     </div>
   );
 }

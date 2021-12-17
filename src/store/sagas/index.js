@@ -18,6 +18,7 @@ import {
   passwordResetRequest,
   passwordTokenVerify,
   newPassword,
+  newIssues,
 } from './client';
 
 export default function* rootSaga() {
@@ -28,6 +29,7 @@ export default function* rootSaga() {
     takeLatest(PecasTypes.FINISH_ORCAMENTO_REQUEST, finishOrcamento),
     takeLatest(ClientTypes.RESET_PASSWORD_REQUEST, passwordResetRequest),
     takeLatest(ClientTypes.PASSWORD_TOKEN_VERIFY_REQUEST, passwordTokenVerify),
+    takeLatest(ClientTypes.CREATE_ISSUES_REQUEST, newIssues),
     takeLatest(ClientTypes.NEW_PASSWORD_REQUEST, newPassword),
     takeLatest(ClientTypes.VERIFY_CLIENT_EXIST_REQUEST, clientVerify),
     takeLatest(ClientTypes.CREATE_CLIENT_REQUEST, createClient),

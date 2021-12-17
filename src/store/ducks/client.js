@@ -21,6 +21,8 @@ const { Types, Creators } = createActions({
   passwordTokenVerifySuccess: null,
   newPasswordRequest: ['data'],
   newPasswordSuccess: null,
+  createIssuesRequest: ['data'],
+  createIssuesSuccess: null,
   setLoginModalStatus: ['data'],
   setRecoveryPasswordModal: ['data'],
   setRegisterFormStep: ['data'],
@@ -100,6 +102,15 @@ export const reducer = createReducer(INITIAL_STATE, {
     loading: true,
   }),
   [Types.NEW_PASSWORD_SUCCESS]: (state = INITIAL_STATE) => ({
+    ...state,
+    loading: false,
+  }),
+
+  [Types.CREATE_ISSUES_REQUEST]: (state = INITIAL_STATE) => ({
+    ...state,
+    loading: true,
+  }),
+  [Types.CREATE_ISSUES_SUCCESS]: (state = INITIAL_STATE) => ({
     ...state,
     loading: false,
   }),

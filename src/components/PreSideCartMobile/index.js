@@ -37,7 +37,6 @@ export default function PreSideCart() {
 
   useEffect(() => {
     setOpenSideCar(sideCartStatus);
-    console.tron.log('sideCartStatus', sideCartStatus);
   }, [sideCartStatus]);
 
   return (

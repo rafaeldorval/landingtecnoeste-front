@@ -74,7 +74,7 @@ export default function RecoveryPasswordModal() {
                   </button>
                 </div>
                 <div className="mt-8">
-                  <Link to="/">
+                  <Link to="/app/issues-form">
                     <h3 className="font-bold text-secondaryDark text-center">Não tenho mais acesso ao EMAIL cadastrado.</h3>
                   </Link>
                 </div>
@@ -109,7 +109,7 @@ export default function RecoveryPasswordModal() {
                 </button>
               </div>
               <div className="mt-8">
-                <Link to="/">
+                <Link to="/app/issues-form">
                   <h3 className="font-bold text-secondaryDark text-center">Não tenho mais acesso ao EMAIL cadastrado.</h3>
                 </Link>
               </div>
@@ -162,7 +162,7 @@ export default function RecoveryPasswordModal() {
                   </button>
                 </div>
                 <div className="mt-8">
-                  <Link to="/">
+                  <Link to="/app/issues-form">
                     <h3 className="font-bold text-secondaryDark text-center">Não tenho mais acesso ao EMAIL cadastrado.</h3>
                   </Link>
                 </div>
@@ -194,7 +194,7 @@ export default function RecoveryPasswordModal() {
                   </button>
                 </div>
                 <div className="mt-8">
-                  <Link to="/">
+                  <Link to="/app/issues-form">
                     <h3 className="font-bold text-secondaryDark text-center">Não tenho mais acesso ao EMAIL cadastrado.</h3>
                   </Link>
                 </div>

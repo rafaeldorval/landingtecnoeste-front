@@ -106,6 +106,26 @@ export function* passwordTokenVerify({ data }) {
   }
 }
 
+export function* newIssues({ data }) {
+  try {
+    const navigationStore = yield select((store) => store.navigation.navigation);
+    yield call(api.post, '/issues', data);
+
+    NotificationManager.success(
+      'Chamado criado com sucesso',
+      'Chamado',
+    );
+
+    if (navigationStore) {
+      navigationStore.push('/app');
+    }
+
+    return yield put(ClientActions.createIssuesSuccess());
+  } catch (error) {
+    return yield put(ClientActions.loadingCancel());
+  }
+}
+
 export function* passwordResetRequest({ data }) {
   try {
     yield call(api.post, '/client/reset-password', data);
