@@ -73,11 +73,71 @@ export function* userLogin({ data, navigation }) {
     yield put(ClientActions.setLoginModalStatus(false));
 
     if (navigation) {
-      console.tron.log('navigation', navigation);
       navigationStore.push(navigation);
     }
 
     return yield put(ClientActions.userLoginSuccess());
+  } catch (error) {
+    if (error.response) {
+      if (error.response.status === 401) {
+        NotificationManager.error(
+          'CPF/CNPJ ou EMAIL estão incorreto',
+          'Login',
+        );
+      }
+    }
+    return yield put(ClientActions.loadingCancel());
+  }
+}
+
+export function* passwordTokenVerify({ data }) {
+  try {
+    yield call(api.post, '/client/passwordtoken-verify', data);
+
+    NotificationManager.success(
+      'Senha atualizada com sucesso',
+      'Recuperação de Senha',
+    );
+
+    return yield put(ClientActions.passwordTokenVerifySuccess());
+  } catch (error) {
+    yield put(ClientActions.setInvalidRecoveryPasswordToken(true));
+    return yield put(ClientActions.loadingCancel());
+  }
+}
+
+export function* passwordResetRequest({ data }) {
+  try {
+    yield call(api.post, '/client/reset-password', data);
+
+    yield put(ClientActions.setLoginModalStatus(false));
+
+    yield put(ClientActions.setRecoveryPasswordModal({
+      status: true,
+      step: 1,
+    }));
+
+    return yield put(ClientActions.resetPasswordSuccess());
+  } catch (error) {
+    if (error.response) {
+      if (error.response.status === 401) {
+        NotificationManager.error(
+          'CPF/CNPJ ou EMAIL estão incorreto',
+          'Login',
+        );
+      }
+    }
+    return yield put(ClientActions.loadingCancel());
+  }
+}
+
+export function* newPassword({ data }) {
+  try {
+    const navigationStore = yield select((store) => store.navigation.navigation);
+    yield call(api.put, `/client/new-password/${data.userId}`, data);
+
+    navigationStore.push('/app');
+    return yield put(ClientActions.newPasswordSuccess());
   } catch (error) {
     if (error.response) {
       if (error.response.status === 401) {

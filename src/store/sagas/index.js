@@ -15,6 +15,9 @@ import {
   getClientInfo,
   userLogin,
   getPedidos,
+  passwordResetRequest,
+  passwordTokenVerify,
+  newPassword,
 } from './client';
 
 export default function* rootSaga() {
@@ -23,6 +26,9 @@ export default function* rootSaga() {
     takeLatest(PecasTypes.GET_SEARCH_PECAS_REQUEST, searchPecas),
     takeLatest(PecasTypes.CLEAR_SEARCH_PECAS_REQUEST, clearPecas),
     takeLatest(PecasTypes.FINISH_ORCAMENTO_REQUEST, finishOrcamento),
+    takeLatest(ClientTypes.RESET_PASSWORD_REQUEST, passwordResetRequest),
+    takeLatest(ClientTypes.PASSWORD_TOKEN_VERIFY_REQUEST, passwordTokenVerify),
+    takeLatest(ClientTypes.NEW_PASSWORD_REQUEST, newPassword),
     takeLatest(ClientTypes.VERIFY_CLIENT_EXIST_REQUEST, clientVerify),
     takeLatest(ClientTypes.CREATE_CLIENT_REQUEST, createClient),
     takeLatest(ClientTypes.GET_CLIENT_INFO_REQUEST, getClientInfo),

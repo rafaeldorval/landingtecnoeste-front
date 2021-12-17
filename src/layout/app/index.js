@@ -9,6 +9,7 @@ import HomePage from '../../pages/Home';
 import ClientAcess from '../../pages/ClientAcess';
 import RegisterClient from '../../pages/RegisterClient';
 import FinishOrcamento from '../../pages/FinishOrcamento';
+import RecoveryPassword from '../../pages/RecoveryPassword';
 
 import { isAuthenticated } from '../../services/auth';
 
@@ -24,6 +25,7 @@ function Routes() {
   return (
     <Switch>
       <Route exact path="/app" component={HomePage} />
+      <Route exact path="/app/recovery-password" component={RecoveryPassword} />
       <Route exact path="/app/checkout" component={FinishOrcamento} />
       <Route exact path="/app/user/acess" component={ClientAcess} />
       <Route exact path="/app/user/register" component={RegisterClient} />

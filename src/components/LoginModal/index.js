@@ -10,6 +10,7 @@ import ModalComponent from '../ModalComponent';
 export default function LoginModal() {
   const dispatch = useDispatch();
   const loginModal = useSelector((store) => store.client.loginModalStatus);
+  const recoveryPasswordModal = useSelector((store) => store.client.recoveryPasswordModal);
 
   const [userData, setUserData] = useState({
     docEmail: '',
@@ -72,9 +73,15 @@ export default function LoginModal() {
                 </button>
               </div>
               <div className="mt-8">
-                <Link to="/">
+                <button
+                  type="button"
+                  onClick={() => dispatch(ClientActions.setRecoveryPasswordModal({
+                    status: !recoveryPasswordModal.status,
+                    step: 0,
+                  }))}
+                >
                   <h3 className="font-bold text-secondaryDark">Esqueci minha SENHA</h3>
-                </Link>
+                </button>
                 <Link to="/app/user/register">
                   <h3 className="flex flex-row">
                     Novo usuário?<h3 className="font-bold text-secondaryDark ml-2">Cadastre-se aqui</h3>
@@ -130,9 +137,15 @@ export default function LoginModal() {
                 </button>
               </div>
               <div className="mt-8">
-                <Link to="/">
+                <button
+                  type="button"
+                  onClick={() => dispatch(ClientActions.setRecoveryPasswordModal({
+                    status: !recoveryPasswordModal.status,
+                    step: 0,
+                  }))}
+                >
                   <h3 className="font-bold text-secondaryDark">Esqueci minha SENHA</h3>
-                </Link>
+                </button>
                 <Link to="/">
                   <h3 className="flex flex-row">
                     Novo usuário?<h3 className="font-bold text-secondaryDark ml-2">Cadastre-se aqui</h3>

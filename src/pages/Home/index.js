@@ -4,7 +4,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import ReactGA from 'react-ga';
 import Cookies from 'universal-cookie';
 import NavigationAction from '../../store/ducks/navigation';
@@ -15,19 +14,17 @@ import Footer from '../../components/Footer';
 import Body from './Body';
 import BodySelectLoja from './BodySelectLoja';
 
+import { useQuery } from '../../hooks/useQuery';
 import PreSideCart from '../../components/PreSideCart';
 import PreSideCartMobile from '../../components/PreSideCartMobile';
 import LoginModal from '../../components/LoginModal';
+import RecoveryPasswordModal from '../../components/RecoveryPasswordModal';
 import Header from '../../components/Header';
 import ScrollToTop from '../../components/ScrollToTop';
 import LoadingScreen from '../../components/LoadingScreen';
 import VendedorData from '../../config/vendedorData';
 
 import 'react-notifications/lib/notifications.css';
-
-export function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
 
 export default function Home({ history }) {
   const dispatch = useDispatch();
@@ -107,6 +104,7 @@ export default function Home({ history }) {
         <BodySelectLoja />
       )}
       <LoginModal />
+      <RecoveryPasswordModal />
       <Footer />
     </div>
   );

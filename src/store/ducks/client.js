@@ -15,9 +15,17 @@ const { Types, Creators } = createActions({
   getPedidosClientSuccess: ['data'],
   userLoginRequest: ['data', 'navigation'],
   userLoginSuccess: ['data'],
+  resetPasswordRequest: ['data'],
+  resetPasswordSuccess: null,
+  passwordTokenVerifyRequest: ['data'],
+  passwordTokenVerifySuccess: null,
+  newPasswordRequest: ['data'],
+  newPasswordSuccess: null,
   setLoginModalStatus: ['data'],
+  setRecoveryPasswordModal: ['data'],
   setRegisterFormStep: ['data'],
   setClientData: ['data'],
+  setInvalidRecoveryPasswordToken: ['data'],
   loadingCancel: null,
 });
 
@@ -28,7 +36,12 @@ export default Creators;
 
 export const INITIAL_STATE = {
   loginModalStatus: false,
+  recoveryPasswordModal: {
+    status: false,
+    step: 0,
+  },
   registerFormStep: 0,
+  invalidRecoveryPasswordToken: false,
   clientData: null,
   pedidosData: null,
   loading: false,
@@ -64,6 +77,33 @@ export const reducer = createReducer(INITIAL_STATE, {
     loading: false,
   }),
 
+  [Types.RESET_PASSWORD_REQUEST]: (state = INITIAL_STATE) => ({
+    ...state,
+    loading: true,
+  }),
+  [Types.RESET_PASSWORD_SUCCESS]: (state = INITIAL_STATE) => ({
+    ...state,
+    loading: false,
+  }),
+
+  [Types.PASSWORD_TOKEN_VERIFY_REQUEST]: (state = INITIAL_STATE) => ({
+    ...state,
+    loading: true,
+  }),
+  [Types.PASSWORD_TOKEN_VERIFY_SUCCESS]: (state = INITIAL_STATE) => ({
+    ...state,
+    loading: false,
+  }),
+
+  [Types.NEW_PASSWORD_REQUEST]: (state = INITIAL_STATE) => ({
+    ...state,
+    loading: true,
+  }),
+  [Types.NEW_PASSWORD_SUCCESS]: (state = INITIAL_STATE) => ({
+    ...state,
+    loading: false,
+  }),
+
   [Types.GET_PEDIDOS_CLIENT_REQUEST]: (state = INITIAL_STATE) => ({
     ...state,
     loading: true,
@@ -90,6 +130,11 @@ export const reducer = createReducer(INITIAL_STATE, {
     registerFormStep: data,
   }),
 
+  [Types.SET_RECOVERY_PASSWORD_MODAL]: (state = INITIAL_STATE, { data }) => ({
+    ...state,
+    recoveryPasswordModal: data,
+  }),
+
   [Types.SET_LOGIN_MODAL_STATUS]: (state = INITIAL_STATE, { data }) => ({
     ...state,
     loginModalStatus: data,
@@ -98,6 +143,11 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_CLIENT_DATA]: (state = INITIAL_STATE, { data }) => ({
     ...state,
     clientData: data,
+  }),
+
+  [Types.SET_INVALID_RECOVERY_PASSWORD_TOKEN]: (state = INITIAL_STATE, { data }) => ({
+    ...state,
+    invalidRecoveryPasswordToken: data,
   }),
 
   [Types.LOADING_CANCEL]: (state = INITIAL_STATE) => ({
