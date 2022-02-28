@@ -17,19 +17,21 @@ export function formatFloat(value, returnString = false) {
   return formatedValue;
 }
 
-export function handleParcelaValuePecas(row, total, tipo) {
+export function handleParcelaValuePecas(row, total) {
   const {
-    nFator, nParcelas, DESCRICAO, CODIGO,
+    nFator, nParcelas, DESCRICAO,
   } = row;
 
-  const nFatorFormat = nFator === 0 ? 1 : nFator;
-  const nParcelasFormat = nParcelas === 0 ? 1 : nParcelas;
+  // const nFatorFormat = nFator === 0 ? 1 : nFator;
+  // const nParcelasFormat = nParcelas === 0 ? 1 : nParcelas;
 
   const totalFormat = math.round(total, 2);
   const valueParcelaFator = math.round(
-    ((totalFormat * nFatorFormat) / nParcelasFormat), 2,
+    ((totalFormat * nFator) / nParcelas), 2,
   );
-  const totalFinal = math.round((valueParcelaFator * nParcelasFormat), 2);
+
+  console.tron.log('valueParcelaFator', valueParcelaFator);
+  const totalFinal = math.round((valueParcelaFator * nParcelas), 2);
 
   return (`${DESCRICAO} ${valueParcelaFator.toLocaleString('pt-br', { minimumFractionDigits: 2 })} (TOTAL ${totalFinal.toLocaleString('pt-br', { minimumFractionDigits: 2 })})`);
 }

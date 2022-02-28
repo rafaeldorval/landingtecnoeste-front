@@ -6,6 +6,7 @@ import Header from '../../components/Header';
 import CheckoutStep from './CheckoutStep';
 import CartItems from './CartItems';
 import FormPagamento from './FormPagamento';
+import DeliveryAddress from './DeliveryAddress';
 import ResumeCart from './ResumeCart';
 import SuccessOrc from './SuccessOrc';
 
@@ -25,9 +26,12 @@ export default function FinishOrcamento() {
           <FormPagamento />
         )}
         {pecasDataStore && cartStep === 3 && (
-          <ResumeCart />
+          <DeliveryAddress />
         )}
         {pecasDataStore && cartStep === 4 && (
+          <ResumeCart />
+        )}
+        {pecasDataStore && cartStep === 5 && (
           <SuccessOrc />
         )}
       </div>

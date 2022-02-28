@@ -27,6 +27,7 @@ const { Types, Creators } = createActions({
   setRecoveryPasswordModal: ['data'],
   setRegisterFormStep: ['data'],
   setClientData: ['data'],
+  setDeliveryData: ['data'],
   setInvalidRecoveryPasswordToken: ['data'],
   loadingCancel: null,
 });
@@ -45,6 +46,7 @@ export const INITIAL_STATE = {
   registerFormStep: 0,
   invalidRecoveryPasswordToken: false,
   clientData: null,
+  deliveryData: null,
   pedidosData: null,
   loading: false,
 };
@@ -154,6 +156,11 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_CLIENT_DATA]: (state = INITIAL_STATE, { data }) => ({
     ...state,
     clientData: data,
+  }),
+
+  [Types.SET_DELIVERY_DATA]: (state = INITIAL_STATE, { data }) => ({
+    ...state,
+    deliveryData: data,
   }),
 
   [Types.SET_INVALID_RECOVERY_PASSWORD_TOKEN]: (state = INITIAL_STATE, { data }) => ({

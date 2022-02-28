@@ -52,7 +52,7 @@ function Header({ showUserAction = true, stickOff = false }) {
             )}
           >
             <FaUserAlt size={15} color="#E6BF27" />
-            <h3 className="mx-2 text-white text-secondary font-semibold capitalize">
+            <h3 className="mx-2 text-secondary font-semibold capitalize">
               { clientData && clientData._id ? clientData.firstName : 'Entrar'}
             </h3>
             <IoIosArrowDown size={15} color="#E6BF27" />
@@ -63,7 +63,7 @@ function Header({ showUserAction = true, stickOff = false }) {
             onClick={() => dispatch(PecasAction.setSideCartStatus(true))}
           >
             <IoCart size={25} color="#E6BF27" />
-            <h3 className="mx-2 text-white text-secondary font-semibold">
+            <h3 className="mx-2 text-secondary font-semibold">
               {pecasData && pecasData.docs.filter((item) => item.qtd > 0).length}
             </h3>
           </button>

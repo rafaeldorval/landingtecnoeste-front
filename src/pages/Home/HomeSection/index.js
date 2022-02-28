@@ -1,13 +1,16 @@
 import React from 'react';
-import { ScrollTo } from 'react-scroll-to';
+// import { ScrollTo } from 'react-scroll-to';
 
-import NovembroLogo from '../../../assets/images/novlogo.png';
+// import NovembroLogo from '../../../assets/images/novlogo.png';
+import Logotecnoestemono from '../../../assets/images/logotecnoestemono.png';
+import Logoesq from '../../../assets/images/logoesq.png';
+import Logodir from '../../../assets/images/logodir.png';
 import './styles.css';
 
 function Header() {
   return (
-    <div className="min-w-screen background-banner md:h-2/4 flex flex-col items-center justify-center w-full flex items-center justify-center flex-col md:flex-row">
-      <div className="flex flex-col items-center md:items-start p-4 md:p-0">
+    <div className="min-w-screen background-home-banner md:h-2/4  w-full flex items-center justify-center flex-col">
+      {/* <div className="flex flex-col items-center md:items-start p-4 md:p-0">
         <span className="text-white font-semibold text-2xl my-4">TODA LOJA COM 10% DE DESCONTO
           <br />
           <span className="text-white text-sm my-4">
@@ -46,9 +49,15 @@ function Header() {
 
           </div>
         </div>
-      </div>
-      <div className="flex flex-col md:w-1/3 items-start">
-        <img src={NovembroLogo} alt="logo tecnoeste" />
+      </div> */}
+      <img src={Logotecnoestemono} alt="logo tecnoeste" className="home-img-tecnoeste-logo" />
+      <div className="flex flex-row w-full justify-center">
+        <div className="flex flex-col md:w-1/3 items-center">
+          <img src={Logoesq} alt="logo tecnoeste" className="home-img-logo" />
+        </div>
+        <div className="flex flex-col md:w-1/3 items-center">
+          <img src={Logodir} alt="logo tecnoeste" className="home-img-logo" />
+        </div>
       </div>
     </div>
   );

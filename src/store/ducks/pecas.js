@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import { createReducer, createActions } from 'reduxsauce';
+import findAddressLoja from '../../utils/findAddressLoja';
 import { formatFloat } from '../../utils/formaters';
 import formPagamentoData from '../../utils/formPagamento';
 
@@ -40,6 +41,7 @@ export const INITIAL_STATE = {
   secondaryData: null,
   isSearchPecas: false,
   lojaSelect: null,
+  lojaAddress: null,
   carrinho: null,
   totalPrice: 0,
   totalPriceFator: 0,
@@ -179,12 +181,12 @@ export const reducer = createReducer(INITIAL_STATE, {
     const formPgtSelect = state.formPgmData.filter((pgt) => pgt.CODIGO === value)[0];
     // const finalPrice = formPgtSelect.nFator > 0 ? totalPrice * formPgtSelect.nFator : totalPrice;
     const { nFator, nParcelas } = formPgtSelect;
-    const nFatorFormat = nFator === 0 ? 1 : nFator;
-    const nParcelasFormat = nParcelas === 0 ? 1 : nParcelas;
+    // const nFatorFormat = nFator === 0 ? 1 : nFator;
+    // const nParcelasFormat = nParcelas === 0 ? 1 : nParcelas;
 
     const totalFormat = formatFloat(state.totalPrice);
-    const valueParcelaFator = formatFloat((totalFormat * nFatorFormat) / nParcelasFormat);
-    const totalFinal = formatFloat((valueParcelaFator * nParcelasFormat));
+    const valueParcelaFator = formatFloat((totalFormat * nFator) / nParcelas);
+    const totalFinal = formatFloat((valueParcelaFator * nParcelas));
 
     return ({
       ...state,
@@ -213,10 +215,15 @@ export const reducer = createReducer(INITIAL_STATE, {
     loading: data,
   }),
 
-  [Types.SET_LOJA]: (state = INITIAL_STATE, { data }) => ({
-    ...state,
-    lojaSelect: data,
-  }),
+  [Types.SET_LOJA]: (state = INITIAL_STATE, { data }) => {
+    const addressLoja = findAddressLoja(data);
+
+    return ({
+      ...state,
+      lojaSelect: data,
+      lojaAddress: addressLoja,
+    });
+  },
 
   [Types.SET_CARRINHO]: (state = INITIAL_STATE, { data }) => ({
     ...state,

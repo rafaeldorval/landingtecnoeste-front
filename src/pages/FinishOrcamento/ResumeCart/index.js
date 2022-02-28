@@ -9,6 +9,7 @@ import { formatFloat, handleParcelaValuePecas } from '../../../utils/formaters';
 export default function ResumeCart() {
   const dispatch = useDispatch();
   const clientDataStore = useSelector((store) => store.client.clientData);
+  const deliveryData = useSelector((store) => store.client.deliveryData);
   const totalPrice = useSelector((store) => store.pecas.totalPrice);
   const totalPriceFator = useSelector((store) => store.pecas.totalPriceFator);
   const formPgmSelected = useSelector((store) => store.pecas.formPgmSelected);
@@ -72,6 +73,7 @@ export default function ResumeCart() {
   function handleFinishPedido() {
     return dispatch(PecasAction.finishOrcamentoRequest({
       ...clientData,
+      entregaData: deliveryData,
       telefone: clientData.celular ? clientData.celular : clientData.telefone,
     }));
   }
