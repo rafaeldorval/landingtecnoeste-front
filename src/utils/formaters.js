@@ -1,8 +1,12 @@
+/* eslint-disable new-cap */
 /* eslint-disable no-restricted-properties */
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-mixed-operators */
 import React from 'react';
+import {
+  compareAsc, format, isBefore, parseISO, toDate,
+} from 'date-fns';
 import { create, all } from 'mathjs';
 
 const config = { };
@@ -30,8 +34,23 @@ export function handleParcelaValuePecas(row, total) {
     ((totalFormat * nFator) / nParcelas), 2,
   );
 
-  console.tron.log('valueParcelaFator', valueParcelaFator);
   const totalFinal = math.round((valueParcelaFator * nParcelas), 2);
 
   return (`${DESCRICAO} ${valueParcelaFator.toLocaleString('pt-br', { minimumFractionDigits: 2 })} (TOTAL ${totalFinal.toLocaleString('pt-br', { minimumFractionDigits: 2 })})`);
+}
+
+export function valideDatePrommo(pricePromo, price, datePromo) {
+  if (pricePromo) {
+    const dateNow = parseISO(format(Date.now(), 'yyyyMMdd'));
+    const teste = parseISO(datePromo);
+    const compare = isBefore(dateNow, teste);
+
+    if (compare) {
+      return pricePromo;
+    }
+
+    return price;
+  }
+
+  return price;
 }

@@ -7,7 +7,7 @@ import ptBr from 'date-fns/locale/pt-BR';
 import PecasActions from '../ducks/pecas';
 import api from '../../services/api';
 import apiFenix from '../../services/apiFenix';
-import { formatFloat } from '../../utils/formaters';
+import { formatFloat, valideDatePrommo } from '../../utils/formaters';
 // import { formatFloat } from '../../utils/formaters';
 
 export function* getPecas({ nextPage = false }) {
@@ -20,7 +20,8 @@ export function* getPecas({ nextPage = false }) {
       const filterData = data.docs.map((item) => ({
         ...item,
         // newPrice: Math.round(((item.PRECO) * 0.9) * 100) / 100,
-        newPrice: formatFloat((item.PRECO * 0.9)),
+        // newPrice: formatFloat((item.PRECO * 0.9)),
+        newPrice: valideDatePrommo(item.PROMOCAO, item.PRECO, item.DTVALIDPRO),
         qtd: 0,
         imgData: `https://fenix.tecnoeste.net/imagens/pecas/slr-${item.SLR}-ref-${item.REFERENCIA}-cf--foto1.jpeg`,
       }));
@@ -33,7 +34,8 @@ export function* getPecas({ nextPage = false }) {
     const filterData = data.docs.map((item) => ({
       ...item,
       // newPrice: Math.round(((item.PRECO) * 0.9) * 100) / 100,
-      newPrice: formatFloat((item.PRECO * 0.9)),
+      // newPrice: formatFloat((item.PRECO * 0.9)),
+      newPrice: valideDatePrommo(item.PROMOCAO, item.PRECO, item.DTVALIDPRO),
       qtd: 0,
       imgData: `https://fenix.tecnoeste.net/imagens/pecas/slr-${item.SLR}-ref-${item.REFERENCIA}-cf--foto1.jpeg`,
     }));
@@ -56,7 +58,7 @@ export function* searchPecas({ name, nextPage = false }) {
       const filterData = data.docs.map((item) => ({
         ...item,
         // newPrice: Math.round(((item.PRECO) * 0.9) * 100) / 100,
-        newPrice: formatFloat((item.PRECO * 0.9)),
+        newPrice: valideDatePrommo(item.PROMOCAO, item.PRECO, item.DTVALIDPRO),
         qtd: 0,
         imgData: `https://fenix.tecnoeste.net/imagens/pecas/slr-${item.SLR}-ref-${item.REFERENCIA}-cf--foto1.jpeg`,
       }));
@@ -76,7 +78,8 @@ export function* searchPecas({ name, nextPage = false }) {
     const filterData = data.docs.map((item) => ({
       ...item,
       // newPrice: Math.round(((item.PRECO) * 0.9) * 100) / 100,
-      newPrice: formatFloat((item.PRECO * 0.9)),
+      newPrice: valideDatePrommo(item.PROMOCAO, item.PRECO, item.DTVALIDPRO),
+      // newPrice: formatFloat((item.PRECO * 0.9)),
       qtd: 0,
       imgData: `https://fenix.tecnoeste.net/imagens/pecas/slr-${item.SLR}-ref-${item.REFERENCIA}-cf--foto1.jpeg`,
     }));
@@ -126,7 +129,7 @@ export function* finishOrcamento({ data }) {
       dateLead: dateNow,
       formaPgmName: totalPrice === 0 ? '' : formPgmSelected.DESCRICAO,
       codFormaPgm: totalPrice === 0 ? '' : formPgmSelected.CODIGO,
-      promoName: 'BLACK FRIDAY - 26/11/2021',
+      promoName: 'CAMPANHA DE FILTRO - 03/2022',
     };
 
     yield call(api.post, '/lead', finalData);

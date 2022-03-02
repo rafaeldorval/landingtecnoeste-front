@@ -28,7 +28,6 @@ import 'react-notifications/lib/notifications.css';
 
 export default function Home({ history }) {
   const dispatch = useDispatch();
-  const query = useQuery();
   const pecasLoading = useSelector((state) => state.pecas.loading);
   const lojaSelectStore = useSelector((state) => state.pecas.lojaSelect);
   const totalPrice = useSelector((state) => state.pecas.totalPrice);
@@ -58,8 +57,8 @@ export default function Home({ history }) {
   useEffect(() => {
     const cookie = new Cookies();
 
-    const vendedorQuery = query.get('v');
-    const origemQuery = query.get('o');
+    const vendedorQuery = cookie.get('v');
+    const origemQuery = cookie.get('o');
 
     if (vendedorQuery) {
       cookie.set('v', vendedorQuery);

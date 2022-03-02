@@ -16,7 +16,7 @@ import Routes from './routes';
 function App() {
   return (
     <Provider store={store}>
-      <Router>
+      <Router basename="/mar22">
         <Routes />
         <NotificationContainer />
       </Router>

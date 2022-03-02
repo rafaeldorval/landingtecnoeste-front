@@ -7,7 +7,7 @@ import {
   AiOutlineCheck,
 } from 'react-icons/ai';
 import { RiFileList3Line } from 'react-icons/ri';
-import { GrDeliver } from 'react-icons/gr';
+// import { GrDeliver } from 'react-icons/gr';
 import { useDispatch, useSelector } from 'react-redux';
 import PecasAction from '../../../store/ducks/pecas';
 // import { Container } from './styles';
@@ -66,7 +66,7 @@ export default function CheckoutStep() {
         <AiOutlineCreditCard size={25} />
         <p className="ml-4 hidden md:flex font-semibold">Pagamento</p>
       </section>
-      <section
+      {/* <section
         onClick={() => {
           if (cartStep >= 3 && cartStep !== 5) {
             dispatch(PecasAction.setCartStep(3));
@@ -89,7 +89,7 @@ export default function CheckoutStep() {
       >
         <GrDeliver size={25} />
         <p className="ml-4 hidden md:flex font-semibold">Entrega</p>
-      </section>
+      </section> */}
       <section
         onClick={() => {
           if (cartStep >= 4 && cartStep !== 5) {
@@ -103,10 +103,10 @@ export default function CheckoutStep() {
           justify-center
           h-full
           w-1/4
-          ${cartStep >= 4 && `
+          ${cartStep >= 3 && `
             bg-secondary
           `}
-          ${cartStep >= 4 && cartStep !== 5 && `
+          ${cartStep >= 3 && cartStep !== 5 && `
             cursor-pointer
           `}
         `}
@@ -116,7 +116,7 @@ export default function CheckoutStep() {
       </section>
       <section
         onClick={() => {
-          if (cartStep >= 5) {
+          if (cartStep >= 4) {
             dispatch(PecasAction.setCartStep(4));
           }
         }}
@@ -127,7 +127,7 @@ export default function CheckoutStep() {
           justify-center
           h-full
           w-1/4
-          ${cartStep >= 5 && `
+          ${cartStep >= 4 && `
             bg-secondary
             cursor-pointer
           `}
