@@ -19,6 +19,8 @@ const { Types, Creators } = createActions({
   resetPasswordSuccess: null,
   passwordTokenVerifyRequest: ['data'],
   passwordTokenVerifySuccess: null,
+  accontTokenVerifyRequest: ['data'],
+  accontTokenVerifySuccess: null,
   newPasswordRequest: ['data'],
   newPasswordSuccess: null,
   createIssuesRequest: ['data'],
@@ -29,6 +31,7 @@ const { Types, Creators } = createActions({
   setClientData: ['data'],
   setDeliveryData: ['data'],
   setInvalidRecoveryPasswordToken: ['data'],
+  setInvalidAccontToken: ['data'],
   loadingCancel: null,
 });
 
@@ -45,6 +48,7 @@ export const INITIAL_STATE = {
   },
   registerFormStep: 0,
   invalidRecoveryPasswordToken: false,
+  invalidAccontToken: false,
   clientData: null,
   deliveryData: null,
   pedidosData: null,
@@ -95,6 +99,15 @@ export const reducer = createReducer(INITIAL_STATE, {
     loading: true,
   }),
   [Types.PASSWORD_TOKEN_VERIFY_SUCCESS]: (state = INITIAL_STATE) => ({
+    ...state,
+    loading: false,
+  }),
+
+  [Types.ACCONT_TOKEN_VERIFY_REQUEST]: (state = INITIAL_STATE) => ({
+    ...state,
+    loading: true,
+  }),
+  [Types.ACCONT_TOKEN_VERIFY_SUCCESS]: (state = INITIAL_STATE) => ({
     ...state,
     loading: false,
   }),
@@ -166,6 +179,11 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.SET_INVALID_RECOVERY_PASSWORD_TOKEN]: (state = INITIAL_STATE, { data }) => ({
     ...state,
     invalidRecoveryPasswordToken: data,
+  }),
+
+  [Types.SET_INVALID_ACCONT_TOKEN]: (state = INITIAL_STATE, { data }) => ({
+    ...state,
+    invalidAccontToken: data,
   }),
 
   [Types.LOADING_CANCEL]: (state = INITIAL_STATE) => ({

@@ -126,9 +126,7 @@ export default function RegisterClient({ history }) {
 
   return (
     <div className="w-full h-screen flex flex-row">
-      <div className="hidden md:flex bg-gray-400 w-1/2 background-banner">
-        <h3>bg imagem</h3>
-      </div>
+      <div className="hidden md:flex bg-gray-400 w-1/2 background-banner" />
       <div className="w-full md:w-1/2 h-full flex flex-col items-center justify-center">
         <div className="w-full h-5/6 flex flex-col items-center justify-between">
           <div className="w-10/12 md:w-8/12">

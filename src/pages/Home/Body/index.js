@@ -8,6 +8,7 @@ import { GiSandsOfTime } from 'react-icons/gi';
 import { MdSearchOff } from 'react-icons/md';
 import PecasAction from '../../../store/ducks/pecas';
 
+import SeloPreco from '../../../components/SeloPreco';
 import ModalComponent from '../../../components/ModalComponent';
 import FallBackImage from '../../../assets/images/imgfallback.png';
 import FallBackImageLarge from '../../../assets/images/imgfallbackLarge.jpg';
@@ -66,7 +67,7 @@ function Body() {
       {!pecasLoading && (
       <h3 className="text-xl font-semibold text-center mb-2">Pesquise pelo nome ou código das peças que você procura:</h3>
       )}
-      <div className="w-full bg-white flex flex-col items-center sticky top-14 p-4 border-b-2">
+      <div style={{ zIndex: '500' }} className="w-full bg-white flex flex-col items-center sticky top-14 p-4 border-b-2">
         {!pecasLoading && (
           <section className="w-full flex flex-row items-center justify-center">
             <input
@@ -102,6 +103,7 @@ function Body() {
         <div className="flex md:flex-row flex-wrap flex-col w-10/12 items-center justify-start mb-8">
           {itemData && itemData.map((item, index) => (
             <section key={`${item.REFERENCIA}-${index}`} className="flex flex-col items-center w-full md:w-2/6 mt-14">
+              <SeloPreco preco={item.perPromo} />
               <Img
                 src={
                   [
@@ -113,6 +115,7 @@ function Body() {
                   width: '150px',
                   height: '150px',
                   cursor: 'pointer',
+                  zIndex: '-2',
                 }}
                 onClick={() => {
                   setImgFocusUrl(item.imgData);

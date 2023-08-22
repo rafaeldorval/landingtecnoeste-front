@@ -41,6 +41,7 @@ export default function PreSideCart() {
 
   return (
     <div
+      style={{ zIndex: '600' }}
       className={`
         bg-white
         h-screen

@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import Cookies from 'universal-cookie';
+// import Cookies from 'universal-cookie';
 import { put, call, select } from 'redux-saga/effects';
 import { NotificationManager } from 'react-notifications';
 import { TOKEN_KEY } from '../../services/auth';
@@ -106,6 +106,24 @@ export function* passwordTokenVerify({ data }) {
   }
 }
 
+export function* accontTokenVerify({ data }) {
+  try {
+    const { data: response } = yield call(api.post, '/client/account-tokenVerify', data);
+
+    NotificationManager.success(
+      'Ativação realizada com sucesso',
+      'Registro de conta',
+    );
+
+    localStorage.setItem(TOKEN_KEY, response.token);
+    yield call(getClientInfo);
+    return yield put(ClientActions.accontTokenVerifySuccess());
+  } catch (error) {
+    yield put(ClientActions.setInvalidRecoveryPasswordToken(true));
+    return yield put(ClientActions.loadingCancel());
+  }
+}
+
 export function* newIssues({ data }) {
   try {
     const navigationStore = yield select((store) => store.navigation.navigation);
@@ -173,22 +191,23 @@ export function* newPassword({ data }) {
 
 export function* createClient({ data }) {
   try {
-    const cookie = new Cookies();
+    // const cookie = new Cookies();
     const navigation = yield select((store) => store.navigation.navigation);
-    const { data: response } = yield call(api.post, '/client', data);
+    yield call(api.post, '/client', data);
 
     NotificationManager.success(
       'Cliente cadastrado com sucesso',
       'Novo cliente',
     );
 
-    localStorage.setItem(TOKEN_KEY, response.token);
+    // localStorage.setItem(TOKEN_KEY, response.token);
 
-    const queryV = cookie.get('v');
-    const queryO = cookie.get('o');
+    // const queryV = cookie.get('v');
+    // const queryO = cookie.get('o');
 
-    navigation.push(`/app?${queryV ? `v=${queryV}&` : ''}${queryO ? `o=${queryO}` : ''}`);
-    yield call(getClientInfo);
+    // navigation.push(`/app?${queryV ? `v=${queryV}&` : ''}${queryO ? `o=${queryO}` : ''}`);
+    // yield call(getClientInfo);
+    navigation.push('/app/user/finish-register');
     yield put(ClientActions.setLoginModalStatus(false));
     yield put(ClientActions.setRegisterFormStep(0));
     return yield put(ClientActions.createClientSuccess());

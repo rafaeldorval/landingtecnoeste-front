@@ -44,6 +44,8 @@ export default function ClientAcess() {
         'Todos os campos são obrigatorios',
         'Visitante',
       );
+
+      return null;
     }
     history.push('/app/checkout');
     return dispatch(ClientActions.setClientData(visitanteData));
@@ -53,8 +55,8 @@ export default function ClientAcess() {
     <div className="w-full bg-background h-screen flex flex-col">
       <Header showUserAction={false} stickOff />
       <div className="h-full w-full flex flex-col items-center justify-center">
-        <div className="w-8/12 h-4/6 bg-white flex flex-row shadow-md p-4">
-          <div className="w-6/12 flex flex-col items-center justify-center border-r">
+        <div className="w-11/12 md:w-8/12 h-full md:h-4/6 bg-white flex flex-col md:flex-row shadow-md p-4">
+          <div className="w-full md:w-6/12 mb-4 pb-4 md:mb-0 md:pb-0 flex flex-col items-center justify-center md:border-r sm:border-b">
             <h3 className="font-semibold mb-4 text-2xl">Login</h3>
             <section className="flex flex-col items-start w-9/12">
               <input
@@ -127,7 +129,7 @@ export default function ClientAcess() {
               </Link>
             </div>
           </div>
-          <div className="w-6/12 flex flex-col items-center justify-center">
+          <div className="w-full md:w-6/12 flex flex-col items-center justify-center">
             <h3 className="font-semibold mb-4 text-2xl">Ou continuar como visitante</h3>
             <section className="flex flex-col items-start w-9/12">
               <input

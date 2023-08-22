@@ -3,8 +3,9 @@ import axios from 'axios';
 import { getToken } from './auth';
 
 const api = axios.create({
-  baseURL: 'https://trecho.app.br:21124',
+  // baseURL: 'https://trecho.app.br:21124',
   // baseURL: 'http://localhost:21124',
+  baseURL: 'https://api.tecnoeste.net',
 });
 
 api.interceptors.request.use(async (config) => {

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import ClientActions from '../../store/ducks/client';
 import ModalComponent from '../ModalComponent';
 
@@ -9,6 +9,7 @@ import ModalComponent from '../ModalComponent';
 
 export default function LoginModal() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const loginModal = useSelector((store) => store.client.loginModalStatus);
   const recoveryPasswordModal = useSelector((store) => store.client.recoveryPasswordModal);
 
@@ -22,7 +23,7 @@ export default function LoginModal() {
   }
 
   return (
-    <div className="">
+    <div style={{ }}>
       {/* Versçao mobile */}
       <div className="flex md:hidden">
         {window.matchMedia('(min-width:768px)').matches ? (
@@ -82,11 +83,11 @@ export default function LoginModal() {
                 >
                   <h3 className="font-bold text-secondaryDark">Esqueci minha SENHA</h3>
                 </button>
-                <Link to="/app/user/register">
+                <button onClick={() => history.push('/app/user/acess')} type="button">
                   <h3 className="flex flex-row">
                     Novo usuário?<h3 className="font-bold text-secondaryDark ml-2">Cadastre-se aqui</h3>
                   </h3>
-                </Link>
+                </button>
               </div>
             </div>
           </ModalComponent>

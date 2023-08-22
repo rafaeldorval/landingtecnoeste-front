@@ -16,6 +16,7 @@ function Header({ showUserAction = true, stickOff = false }) {
   const history = useHistory();
   const cookie = new Cookies();
   const dispatch = useDispatch();
+  const sideCartStatus = useSelector((store) => store.pecas.sideCartStatus);
   const pecasData = useSelector((store) => store.pecas.pecasData);
   const loginModalStatus = useSelector((store) => store.client.loginModalStatus);
   const clientData = useSelector((store) => store.client.clientData);
@@ -31,7 +32,7 @@ function Header({ showUserAction = true, stickOff = false }) {
   }
 
   return (
-    <div className={`min-w-screen w-full bg-black p-2 ${stickOff ? '' : 'sticky'} top-0 flex flex-row justify-between items-center`}>
+    <div style={{ zIndex: '590' }} className={`min-w-screen w-full z-full bg-black p-2 ${stickOff ? '' : 'sticky'} top-0 flex flex-row justify-between items-center`}>
       <Link onClick={() => handleGoHome()} to={`/app?${queryV ? `v=${queryV}&` : ''}${queryO ? `o=${queryO}` : ''}`}>
         <Img
           src={LogoTecnoeste}
@@ -60,7 +61,7 @@ function Header({ showUserAction = true, stickOff = false }) {
           <button
             type="button"
             className="flex flex-row items-center"
-            onClick={() => dispatch(PecasAction.setSideCartStatus(true))}
+            onClick={() => dispatch(PecasAction.setSideCartStatus(!sideCartStatus))}
           >
             <IoCart size={25} color="#E6BF27" />
             <h3 className="mx-2 text-secondary font-semibold">

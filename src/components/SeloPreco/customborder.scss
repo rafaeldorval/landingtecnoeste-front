@@ -1,0 +1,69 @@
+// gradient: https://www.gradientmagic.com/collection/rainbowstandard
+@import url("https://fonts.googleapis.com/css?family=Lato:300");
+
+.gradient-border {
+  --border-width: 5px;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 70px;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 15px;
+  text-transform: uppercase;
+  color: #EFD918;
+  background: #000;
+  border-radius: 100px;
+  margin-bottom: -35px;
+  margin-right: -15px;
+
+  &::after {
+    position: absolute;
+    content: "";
+    top: calc(-1 * var(--border-width));
+    left: calc(-1 * var(--border-width));
+    z-index: -1;
+    width: calc(100% + var(--border-width) * 2);
+    height: calc(100% + var(--border-width) * 2);
+    background: linear-gradient(
+      60deg,
+      hsl(192, 100%, 50%),
+      hsl(185, 100%, 50%),
+      hsl(180, 100%, 50%),
+      hsl(170, 100%, 50%),
+      hsl(280, 90%, 60%),
+      hsl(290, 90%, 60%),
+      hsl(300, 90%, 60%),
+      hsl(337, 90%, 60%)
+
+    );
+    // background: linear-gradient(
+    //   60deg,
+    //   hsl(224, 85%, 66%),
+    //   hsl(269, 85%, 66%),
+    //   hsl(314, 85%, 66%),
+    //   hsl(359, 85%, 66%),
+    //   hsl(44, 85%, 66%),
+    //   hsl(89, 85%, 66%),
+    //   hsl(134, 85%, 66%),
+    //   hsl(179, 85%, 66%)
+    // );
+    background-size: 300% 300%;
+    background-position: 0 50%;
+    border-radius: 100px;
+    animation: moveGradient 4s alternate infinite;
+  }
+}
+
+@keyframes moveGradient {
+  50% {
+    background-position: 100% 50%;
+  }
+}
+ .gradient-border h2 {
+   font-size: 22px;
+ }
