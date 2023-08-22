@@ -1,11 +1,8 @@
 import React from 'react';
 
-import LogoTecnoeste from '../../assets/images/logotecnoestemono.png';
-
 function SectionFooter() {
   return (
-    <div className="min-w-screen bg-black p-16 h-20 items-center flex justify-center flex-col">
-      <img src={LogoTecnoeste} alt="logo tecnoeste" />
+    <div className="min-w-screen bg-black p-4 items-center flex justify-center flex-col">
       <p className="text-primary">® Todos os direitos reservados.</p>
     </div>
   );

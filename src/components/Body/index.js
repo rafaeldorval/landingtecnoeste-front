@@ -1,68 +1,64 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable max-len */
-import React, { forwardRef } from 'react';
-
+import React from 'react';
+import { ScrollTo } from 'react-scroll-to';
 import './style.css';
 
-const Body = forwardRef(({ itemData, handleItemQtd }, ref) => (
-  <div className="pt-10 px-10 pb-0" ref={ref}>
-    <section className="w-full flex flex-col items-center">
-      <h3 className="text-4xl font-bold text-center">Escolha seu produto e aproveite essas ofertas</h3>
-      <p>Preços <b>À VISTA</b> somente até <b>30/10/2021*</b></p>
-    </section>
-    <div className="mt-6 flex flex-col items-center">
-      <div className="flex md:flex-row flex-wrap flex-col w-10/12 items-center justify-start">
-        {itemData.map((item, index) => (
-          <section key={`${item.ref}-${index}`} className="flex flex-col items-center w-full md:w-2/6 mt-14">
-            <img src={item.imgData} alt="ref 11915157" className="w-8/12 md:w-7/12" />
-            <h3 className="text-primary flex flex-col items-center justify-center text-center font-bold text-xl">{item.title}</h3>
-            <p>Ref: {item.ref}</p>
-            {item.volume && !item.destaque && (
-            <p>Embalagem: {item.volume}</p>
-            )}
-            {/* {!item.volume && !item.destaque && (
-            <p className="text-white">-</p>
-            )}
-            {item.destaque && (
-            <p className="bg-primary text-secondary px-2 uppercase font-semibold">{item.destaque}</p>
-            )} */}
-            <p className="max-w-16 text-center mt-4 font-bold text-primary text-xl">
-              {item.description}
-            </p>
-            <span className="flex flex-row items-center justify-center">
-              <h4 className="text-red-600 font-bold line-through text-lg mr-1">R$ {item.oldPrice}</h4>
-              <h5 className="text-green-500 font-bold text-2xl">R$ {item.newPrice.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h5>
-            </span>
-            {item.qtd ? (
-              <section className="flex flex-row items-center justify-between bg-primary w-full md:w-2/3 rounded mt-4">
-                <button className="bg-secondary py-2 px-4" type="button" onClick={() => handleItemQtd(item.ref, '-')}>
-                  <p className="text-primary font-bold">-</p>
-                </button>
-                <h3 className="text-secondary font-bold">{item.qtd}</h3>
-                <button className="bg-secondary py-2 px-4" type="button" onClick={() => handleItemQtd(item.ref, '+')}>
-                  <p className="text-primary font-bold">+</p>
-                </button>
-              </section>
-            ) : (
-              <button
-                onClick={() => handleItemQtd(item.ref, '+')}
-                className="bg-secondary py-2 w-full md:w-2/3 rounded mt-4"
-                type="button"
-              >
-                <p className="text-primary font-bold">COMPRAR AGORA</p>
-              </button>
-            )}
-          </section>
-        ))}
-      </div>
-      <div className="flex w-full items-center justify-center mt-8 mb-4">
-        <p className="text-black px-2 font-semibold">
-          *Válido para o cliente que utilizar o nosso serviço de instalação.
-          Não esta incluso no valor da peça.
-        </p>
-      </div>
-    </div>
-  </div>
-));
+export default function Body() {
+  const classNamesTitles = 'text-white flex flex-row items-center font-semibold';
+  const classNamesSubtitle = 'text-secondary font-bold text-xl ml-2';
 
-export default Body;
+  return (
+    <div className="min-w-screen body-banner-bg flex flex-col items-start justify-center p-12 md:py-36 md:px-36">
+      <h3 className="text-secondary text-4xl font-bold">ESPECIFICAÇÕES TÉCNICAS PARA SD110B</h3>
+      <span className="text-white flex flex-row items-center mb-8">
+        Estas são as principais especificações desse modelo do produto.
+      </span>
+      <span className={classNamesTitles}>
+        Peso operacional (com ROPS)
+        <h3 className={classNamesSubtitle}>10.700 kg</h3>
+      </span>
+      <span className={classNamesTitles}>
+        Peso operacional (com ROPS, incl. cabine e raspador interno)
+        <h3 className={classNamesSubtitle}>11.100 kg</h3>
+      </span>
+      <span className={classNamesTitles}>
+        Força centrífuga
+        <h3 className={classNamesSubtitle}>208/258 kN</h3>
+      </span>
+      <span className={classNamesTitles}>
+        Frequência de vibração
+        <h3 className={classNamesSubtitle}>34/31 Hz</h3>
+      </span>
+      <span className={classNamesTitles}>
+        Potência nominal do motor
+        <h3 className={classNamesSubtitle}>99 kW</h3>
+      </span>
+      <span className={classNamesTitles}>
+        Amplitude
+        <h3 className={classNamesSubtitle}>1,97/1,36 mm</h3>
+      </span>
+      <span className={classNamesTitles}>
+        Largura do cilindro
+        <h3 className={classNamesSubtitle}>2.134 mm</h3>
+      </span>
+      <span className={classNamesTitles}>
+        Ângulo da articulação
+        <h3 className={classNamesSubtitle}>+/-38 graus</h3>
+      </span>
+      <span className={classNamesTitles}>
+        Ângulo da oscilação
+        <h3 className={classNamesSubtitle}>+/-15 graus</h3>
+      </span>
+      <ScrollTo>
+        {({ scroll }) => (
+          <button
+            type="button"
+            onClick={() => scroll({ y: 3800, smooth: true })}
+            className="bg-secondary mt-12 px-6 py-4 font-semibold text-primary text-4xl rounded"
+          >
+            <span>SABER PREÇO</span>
+          </button>
+        )}
+      </ScrollTo>
+    </div>
+  );
+}

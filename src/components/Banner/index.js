@@ -1,96 +1,49 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable max-len */
-/* eslint-disable no-undef */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable react/no-unknown-property */
 import React from 'react';
-import NumberFormat from 'react-number-format';
-import PromoImg from '../../assets/images/novlogo.png';
-import formPagamento from './formPagamento';
-import { formatFloat, handleParcelaValuePecas } from '../../utils/formaters';
-import './style.css';
+import { ScrollTo } from 'react-scroll-to';
+import './styles.css';
+import SeloLogoImg from '../../assets/images/selo.png';
 
-function Banner({
-  totalPrice,
-  handleClientData,
-  clientData,
-  finishOrcamento,
-  totalPriceFator,
-  handleFormPgt,
-  codFormaPgm,
-}) {
+function Banner() {
   return (
-    <div className="min-w-screen background-banner md:h-3/4 flex flex-col items-center justify-center w-full">
-      <div className="flex items-center justify-center flex-col md:flex-row h-11/12 w-full p-4">
-        <div className="md:flex-1 md:h-full flex flex-col items-center justify-center md:items-end">
-          <img className="md:w-4/5 w-full md:-mr-8" src={PromoImg} alt="product banner" />
+    <div className="py-20 min-w-screen background-banner md:h-3/4 flex flex-col items-center justify-center w-full flex items-center justify-center flex-col md:flex-row">
+      <div className="flex flex-col items-center p-4 md:p-0 md:w-2/4 container-banner">
+        <div className="flex flex-col items-start w-full">
+          <span className="text-secondary font-semibold text-2xl">COMPACTADORES DE SOLO</span>
+          <span className="text-white font-bold text-6xl my-4">VOLVO SD110B</span>
+          <span className="text-white font-semibold text-xl mb-8">O Compactador de solo Volvo SD110B é fabricado para durar, graças aos componentes de alta qualidade da Volvo. Esse compactador durável apresenta uma robusta estrutura de aço, um cilindro e um chassi resilientes e um excelente sistema hidráulico, que trabalham juntos para que você consiga enfrentar os trabalhos mais difíceis por um tempo maior.</span>
         </div>
-        <div className="flex-1 h-full mt-4 flex items-center justify-center flex-col md:pr-20">
-          <h3 className="text-3xl font-bold text-white w-full md:w-8/12">Preencha o formulário para receber o seu orçamento:</h3>
-          <section className="w-full md:w-10/12 flex items-center justify-center flex-col mt-2 mb-2">
-            <label for="inp-name" className="text-white w-full md:w-8/12 text-left">Nome:</label>
-            <input
-              id="inp-name"
-              value={clientData.nome}
-              onChange={({ target }) => handleClientData(target.value, 'nome')}
-              type="text"
-              className="w-full md:w-8/12 rounded-3xl h-10 p-4"
-            />
-          </section>
-          <section className="w-full md:w-10/12 flex items-center justify-center flex-col mt-2 mb-2">
-            <label for="inp-email" className="text-white w-full md:w-8/12 text-left">Email:</label>
-            <input
-              id="inp-email"
-              value={clientData.email}
-              onChange={({ target }) => handleClientData(target.value, 'email')}
-              type="text"
-              className="w-full md:w-8/12 rounded-3xl h-10 p-4"
-            />
-          </section>
-          <section className="w-full md:w-10/12 flex items-center justify-center flex-col mt-2 mb-2">
-            <label for="inp-telefone" className="text-white w-full md:w-8/12 text-left">Telefone:</label>
-            <NumberFormat
-              format="(##) #####-####"
-              mask="_"
-              className="w-full md:w-8/12 rounded-3xl h-10 p-4"
-              value={clientData.telefone}
-              onChange={({ target }) => handleClientData(target.value, 'telefone')}
-            />
-          </section>
-          {totalPrice > 0 && (
-          <section className="w-full md:w-10/12 flex items-center justify-center flex-col mt-2 mb-2">
-            <label for="inp-formpagamento" className="text-white w-full md:w-8/12 text-left">Forma pagamento:</label>
-            <select
-              id="inp-formpagamento"
-              value={codFormaPgm}
-              onChange={({ target }) => handleFormPgt(target.value)}
-              className="w-full md:w-8/12 rounded-3xl h-10 px-4"
-            >
-              {/* {formPagamento.map((pgt) => (
-                <option key={pgt.CODIGO} value={pgt.CODIGO}>{pgt.DESCRICAO}</option>
-              ))} */}
-              {formPagamento.filter((row) => (row.LIMITEINFE ? totalPriceFator >= row.LIMITEINFE : true)).map((pgt) => (
-                <option key={pgt.CODIGO} value={pgt.CODIGO}>
-                  {handleParcelaValuePecas(pgt, totalPrice)}
-                </option>
-              ))}
-            </select>
-          </section>
-          )}
-          <button
-            type="button"
-            className="bg-secondary w-full md:w-2/5 h-12 rounded-3xl mt-2 mb-4"
-            onClick={() => finishOrcamento()}
-          >
-            <h4 className="text-base lg:text-lg font-bold uppercase">Receber ORÇAMENTO</h4>
-          </button>
-          {totalPrice > 0 && (
-          <h4 className="bg-black rounded-xl px-5 border border-secondary py-2 text-secondary border-dashed text-3xl font-bold uppercase">Total: R$ {formatFloat(totalPriceFator).toLocaleString('pt-br', { minimumFractionDigits: 2 })}</h4>
-          )}
+        <div>
+          <div className="flex md:hidden lg:hidden xl:hidden">
+            <ScrollTo>
+              {({ scroll }) => (
+                <button
+                  type="button"
+                  onClick={() => scroll({ y: 600, smooth: true })}
+                  className="bg-secondary px-4 py-2 font-semibold text-primary text-2xl rounded"
+                >
+                  <span>SABER PREÇO</span>
+                </button>
+              )}
+            </ScrollTo>
+
+          </div>
+          <div className="hidden md:flex lg:flex xl:flex">
+            <ScrollTo>
+              {({ scroll }) => (
+                <button
+                  type="button"
+                  onClick={() => scroll({ y: 3800, smooth: true })}
+                  className="bg-secondary px-6 py-4 font-semibold text-primary text-4xl rounded"
+                >
+                  <span>SABER PREÇO</span>
+                </button>
+              )}
+            </ScrollTo>
+
+          </div>
         </div>
       </div>
+      <img className="-mr-6 md:mr-0 selo-logo top-20" src={SeloLogoImg} alt="selo logo" />
     </div>
   );
 }

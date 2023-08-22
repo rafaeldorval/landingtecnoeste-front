@@ -1,0 +1,21 @@
+.container-banner {
+  z-index: 999;
+}
+
+.selo-logo {
+  position: absolute;
+  right: 0;
+  z-index: 500;
+  margin-top: 20px;
+  width: 250px;
+}
+
+@media screen and (max-width: 600px) {
+  .selo-logo {
+    position: inherit;
+    right: auto;
+    width: 350px;
+    top: auto !important;
+  }
+
+}
