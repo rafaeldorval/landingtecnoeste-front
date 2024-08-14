@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import { Img } from 'react-image';
 import { useDispatch, useSelector } from 'react-redux';

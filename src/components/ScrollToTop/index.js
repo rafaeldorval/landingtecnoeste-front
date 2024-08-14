@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
+
 import React, { useState } from 'react';
 import { ScrollTo } from 'react-scroll-to';
 import { FaArrowUp } from 'react-icons/fa';
