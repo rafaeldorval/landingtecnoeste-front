@@ -1,4 +1,5 @@
 import React from 'react';
+import { Img } from 'react-image';
 // import { ScrollTo } from 'react-scroll-to';
 
 // import NovembroLogo from '../../../assets/images/novlogo.png';
@@ -50,13 +51,13 @@ function Header() {
           </div>
         </div>
       </div> */}
-      <img src={Logotecnoestemono} alt="logo tecnoeste" className="home-img-tecnoeste-logo" />
+      <Img src={Logotecnoestemono} alt="logo tecnoeste central" className="home-img-tecnoeste-logo" />
       <div className="flex flex-row w-full justify-center">
         <div className="flex flex-col md:w-1/3 items-center">
-          <img src={Logoesq} alt="logo tecnoeste" className="home-img-logo" />
+          <img src={Logoesq} alt="logo tecnoeste esq" className="home-img-logo" />
         </div>
         <div className="flex flex-col md:w-1/3 items-center">
-          <img src={Logodir} alt="logo tecnoeste" className="home-img-logo" />
+          <img src={Logodir} alt="logo tecnoeste dir" className="home-img-logo" />
         </div>
       </div>
     </div>
